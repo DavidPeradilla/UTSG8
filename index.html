@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Understanding the Self: The Political Self · Group 8</title>
+  <meta name="description" content="An interactive 3D digital exploration of the Political Self, Sikolohiyang Pilipino, the 1987 Philippine Constitution, and Filipino Cultural Values by Group 8.">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23f5b700'/><circle cx='50' cy='50' r='20' fill='%23070e0a'/></svg>">
+</head>
+<body>
+  <!-- Reading Progress Bar -->
+  <div id="progress-bar" aria-hidden="true"></div>
+  <div class="ambient-noise" aria-hidden="true"></div>
+
+  <!-- Global Header Navigation -->
+  <header class="site-nav">
+    <a href="#sec-hero" class="nav-brand" aria-label="Group 8 Home">
+      <div class="nav-brand-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z"/></svg>
+      </div>
+      <span>UNDERSTANDING THE SELF</span>
+      <span class="nav-brand-badge">GROUP 8</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#sec-objectives" class="nav-link">Objectives</a></li>
+      <li><a href="#sec-political-self" class="nav-link">Political Self</a></li>
+      <li><a href="#sec-who-is-filipino" class="nav-link">Citizenship</a></li>
+      <li><a href="#sec-filipino-traits" class="nav-link">Values &amp; Kapwa</a></li>
+      <li><a href="#sec-surface-values" class="nav-link">Surface Values</a></li>
+      <li><a href="#sec-kapwa-levels" class="nav-link">8 Levels</a></li>
+      <li><a href="#sec-markers" class="nav-link">Markers</a></li>
+      <li><a href="#sec-community" class="nav-link">Community</a></li>
+      <li><a href="#sec-democracy" class="nav-link">Democracy</a></li>
+      <li><a href="#sec-political-skills" class="nav-link">Skills</a></li>
+      <li><a href="#sec-quiz" class="nav-link">Closing</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <!-- Search Button -->
+      <button class="nav-btn" id="open-search-btn" title="Search Concepts (Ctrl+K)" aria-label="Search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <span style="font-size:0.75rem;opacity:0.7;display:none;font-family:var(--font-mono)">⌘K</span>
+      </button>
+
+      <!-- Sound FX Toggle -->
+      <button class="nav-btn sound-toggle-btn" id="sound-toggle-btn" title="Toggle Sound Chimes" aria-label="Toggle Sound">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path class="wave" d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path class="wave" d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+      </button>
+
+      <!-- 3D Presentation Deck Mode Toggle -->
+      <button class="nav-btn primary" id="open-deck-btn" title="Enter 3D Presentation Deck Mode">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 14H5V8h14v10z"/></svg>
+        <span>3D Deck Mode (P)</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="app">
+    <!-- ======================================================================
+         HERO SECTION: 3D Interactive Celestial Sun & Kinetic Typography
+         ====================================================================== -->
+    <section class="hero-section" id="sec-hero">
+      <!-- Interactive 3D Canvas Engine -->
+      <canvas id="hero-3d-canvas" aria-label="Interactive 3D Celestial Philippine Sun and Kapwa Sphere"></canvas>
+
+      <div class="hero-ghost-text" aria-hidden="true">POLITICAL SELF</div>
+
+      <div class="hero-overlay-content">
+        <div class="hero-pill-badge fade-in-stagger">
+          <span class="hero-pill-dot"></span>
+          <span>Course Module · Group 8 Presentation</span>
+        </div>
+
+        <h1 class="hero-title" data-kinetic-words>
+          Understanding the Self: <span class="shimmer-text">The Political Realm</span>
+        </h1>
+
+        <p class="hero-subtitle fade-in-stagger delay-2">
+          An interactive inquiry into <strong>citizenship, constitutional identity</strong>, and Virgilio Enriquez’s <strong>Sikolohiyang Pilipino</strong>—from individual agency to collective sovereign consciousness.
+        </p>
+
+        <div class="hero-ctas fade-in-stagger delay-3">
+          <a href="#sec-objectives" class="btn btn-primary">
+            <span>Explore Curriculum</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <button class="btn btn-secondary" onclick="document.getElementById('open-deck-btn').click()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <span>Launch 3D Slides</span>
+          </button>
+          <a href="#sec-kapwa-levels" class="btn btn-secondary">
+            <span>Kapwa 3D Visualizer</span>
+          </a>
+        </div>
+
+        <div class="hero-interaction-hint fade-in-stagger delay-4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+          <span>3D INTERACTION: Drag to rotate the Philippine solar sphere · Click for sonic shockwaves</span>
+        </div>
+      </div>
+
+      <!-- Hero Bottom Stats Bar -->
+      <div class="hero-stats-bar">
+        <div class="hero-stats-grid">
+          <div class="hero-stat-item">
+            <div class="hero-stat-num">10</div>
+            <div class="hero-stat-desc">Comprehensive Module Units</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-num">Art. IV</div>
+            <div class="hero-stat-desc">1987 Philippine Constitution</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-num">8</div>
+            <div class="hero-stat-desc">Levels of Kapwa Interaction</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-num">11</div>
+            <div class="hero-stat-desc">Filipino Traits &amp; Values Analyzed</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 01: Objectives
+         ====================================================================== -->
+    <section class="module-section theme-blue" id="sec-objectives">
+      <div class="section-ghost-watermark">OBJECTIVES</div>
+      <div class="section-container">
+        <div class="section-header">
+          <div class="section-index-badge">00<span>.</span></div>
+          <span class="section-tagline">Learning Objectives</span>
+          <h2 class="section-title" data-kinetic-words>Objectives</h2>
+          <p class="section-lead">
+            Developing critical awareness of the political self as both an individual psychological construct and an active participant in Philippine nation-building.
+          </p>
+        </div>
+
+        <!-- 3D Tilt Card Grid -->
+        <div class="card-grid">
+          <div class="tilt-card">
+            <div class="tilt-card-content">
+              <div class="card-num-badge">01</div>
+              <h3 class="card-title">Define</h3>
+              <p class="card-body">
+               the concept of the Political Self and understand its role in shaping an individual's identity.
+              </p>
+            </div>
+          </div>
+
+          <div class="tilt-card">
+            <div class="tilt-card-content">
+              <div class="card-num-badge">02</div>
+              <h3 class="card-title">Identify</h3>
+              <p class="card-body">
+                the different factors that influence a person's political beliefs, values, and perspectives.
+            </div>
+          </div>
+
+          <div class="tilt-card">
+            <div class="tilt-card-content">
+              <div class="card-num-badge">03</div>
+              <h3 class="card-title">Recognize</h3>
+              <p class="card-body">
+                the importance of political awareness, civic responsibilities, and active participation in society.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Banner Visual with 3D Image Frame -->
+        <div style="margin-top: clamp(2rem, 4vw, 3.5rem);">
+          <div class="image-frame-3d">
+            <img src="./assets/img_0.jpeg" alt="Module Objectives Visual Banner" loading="lazy">
+            <span class="image-badge-tag">Plate 01 · Curriculum Core</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 02: The Political Self
+         ====================================================================== -->
+    <section class="module-section theme-ochre" id="sec-political-self">
+      <div class="section-ghost-watermark">POLITICAL SELF</div>
+      <div class="section-container">
+        <div class="editorial-split">
+          <div class="editorial-content">
+            <div class="section-index-badge">01<span>.</span></div>
+            <span class="section-tagline">Philosophical Foundations</span>
+            <h2 class="section-title" data-kinetic-words>The Political Self</h2>
+            <p class="section-lead">
+              As Aristotle famously posited in his <em>Politics</em>, humans are by nature political animals (<em>zōon politikon</em>). We do not exist in isolation; our identities are forged through collective coexistence.
+            </p>
+
+            <div class="card-grid" style="grid-template-columns:1fr;gap:18px;">
+              <div class="tilt-card">
+                <div class="tilt-card-content">
+                  <div class="card-num-badge">A</div>
+                  <h3 class="card-title">Social Citizenship Obligation</h3>
+                  <p class="card-body">
+                    People are naturally obligated to participate in a political system as social citizens. Our personal rights are inextricably linked to reciprocal civic duties toward our neighbors and community.
+                  </p>
+                </div>
+              </div>
+
+              <div class="tilt-card">
+                <div class="tilt-card-content">
+                  <div class="card-num-badge">B</div>
+                  <h3 class="card-title">Politics as Collective Deliberation</h3>
+                  <p class="card-body">
+                    Politics is fundamentally the way that people living in groups make collective decisions—distributing resources, resolving conflicts, and safeguarding public welfare.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="editorial-media">
+            <div class="image-frame-3d">
+              <img src="./assets/img_12.png" alt="The Political Self Plate" loading="lazy">
+              <span class="image-badge-tag">Plate 02 · The Social Citizen</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 03: Who is a Filipino? (The Constitutional Framework)
+         ====================================================================== -->
+    <section class="module-section theme-green" id="sec-who-is-filipino">
+      <div class="section-ghost-watermark">WHO IS A FILIPINO?</div>
+      <div class="section-container">
+        <div class="section-header">
+          <div class="section-index-badge">02<span>.</span></div>
+          <span class="section-tagline">Article IV · 1987 Philippine Constitution</span>
+          <h2 class="section-title" data-kinetic-words>Who is a Filipino?</h2>
+          <p class="section-lead">
+            National identity is both a cultural bond and a formal constitutional covenant. Article IV, Section 1 defines the sovereign citizenry of the Republic of the Philippines.
+          </p>
+        </div>
+
+        <div class="editorial-split">
+          <div class="card-grid" style="grid-template-columns:1fr;gap:18px;">
+            <div class="tilt-card">
+              <div class="tilt-card-content">
+                <div class="card-num-badge">1</div>
+                <h3 class="card-title">Citizenship by Blood (Jus Sanguinis)</h3>
+                <p class="card-body">
+                  Those whose father or mother are citizens of the Philippines. The Philippines adheres to bloodline descent rather than mere territorial birth (jus soli).
+                </p>
+              </div>
+            </div>
+
+            <div class="tilt-card">
+              <div class="tilt-card-content">
+                <div class="card-num-badge">2</div>
+                <h3 class="card-title">Historic Matrilineal Provision</h3>
+                <p class="card-body">
+                  Those born before January 17, 1973, of Filipino mothers, who elect Philippine citizenship upon reaching the age of majority.
+                </p>
+              </div>
+            </div>
+
+            <div class="tilt-card">
+              <div class="tilt-card-content">
+                <div class="card-num-badge">3</div>
+                <h3 class="card-title">Naturalization by Law</h3>
+                <p class="card-body">
+                  Those who are naturalized in accordance with statutory requirements, renouncing prior foreign allegiances and swearing fidelity to the Republic.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="editorial-media">
+            <div class="image-frame-3d">
+              <img src="./assets/img_2.jpeg" alt="Who is a Filipino Constitutional Banner" loading="lazy">
+              <span class="image-badge-tag">Plate 03 · Constitutional Mandate</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Constitutional Evaluator Widget -->
+        <div class="evaluator-box">
+          <div class="evaluator-header">
+            <div>
+              <h3 style="font-size:1.25rem;font-weight:800;color:var(--c-gold)">Interactive Citizenship Validator</h3>
+              <p style="font-size:0.85rem;color:var(--c-cream-dim)">Select your legal premise to evaluate Philippine citizenship under Article IV:</p>
+            </div>
+            <span class="hero-pill-badge">Article IV Simulator</span>
+          </div>
+
+          <div class="evaluator-steps">
+            <button class="eval-btn selected" data-eval-key="bloodline">
+              <span style="font-weight:700">Scenario A</span>
+              <span>Either of my biological parents is a Filipino citizen.</span>
+            </button>
+            <button class="eval-btn" data-eval-key="mothers">
+              <span style="font-weight:700">Scenario B</span>
+              <span>Born before Jan 17, 1973 of a Filipino mother.</span>
+            </button>
+            <button class="eval-btn" data-eval-key="naturalized">
+              <span style="font-weight:700">Scenario C</span>
+              <span>Foreign national completing naturalization laws.</span>
+            </button>
+          </div>
+
+          <div class="eval-result-card" id="eval-result-card">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c-green-glow)" stroke-width="2.5" style="flex-shrink:0"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <div>
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+                <h4 id="eval-result-title" style="font-size:1.1rem;font-weight:800">Jus Sanguinis (Article IV, Section 1, Paragraph 2)</h4>
+                <span id="eval-result-badge" style="font-size:0.75rem;font-weight:800;text-transform:uppercase;color:var(--c-green-glow)">Natural-Born Citizen</span>
+              </div>
+              <p id="eval-result-desc" style="font-size:0.9rem;color:var(--c-cream-dim);line-height:1.55">
+                You are a natural-born Filipino citizen! Under Philippine law, citizenship is acquired by blood relationship (jus sanguinis), meaning having either a Filipino father or mother grants you citizenship regardless of your place of birth.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 04: What is Political?
+         ====================================================================== -->
+    <section class="module-section theme-blue" id="sec-what-is-political">
+      <div class="section-ghost-watermark">WHAT IS POLITICAL</div>
+      <div class="section-container">
+        <div class="section-header">
+          <div class="section-index-badge">03<span>.</span></div>
+          <span class="section-tagline">Institutional Governance</span>
+          <h2 class="section-title" data-kinetic-words>What is Political?</h2>
+          <p class="section-lead">
+            Politics is not merely elections and rhetoric; it is the structural framework through which free societies establish consensus and govern themselves.
+          </p>
+        </div>
+
+        <div class="card-grid">
+          <div class="tilt-card">
+            <div class="tilt-card-content">
+              <div class="card-num-badge">01</div>
+              <h3 class="card-title">Collective Decision-Making</h3>
+              <p class="card-body">
+                Politics is the way that people living in groups make decisions. It negotiates the distribution of rights, responsibilities, and communal resources.
+              </p>
+            </div>
+          </div>
+
+          <div class="tilt-card">
+            <div class="tilt-card-content">
+              <div class="card-num-badge">02</div>
+              <h3 class="card-title">Policy Making vs. Administration</h3>
+              <p class="card-body">
+                Politics is primarily concerned with the formulation and ideological justification of governmental policy, as distinguished from its bureaucratic administration.
+              </p>
+            </div>
+          </div>
+
+          <div class="tilt-card">
+            <div class="tilt-card-content">
+              <div class="card-num-badge">03</div>
+              <h3 class="card-title">The Republican Mandate</h3>
+              <p class="card-body">
+                A republic is a political system in which the government remains subject to those governed. Sovereignty resides in the people, and all government authority emanates from them.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:clamp(2rem, 4vw, 3.5rem);">
+          <div class="image-frame-3d">
+            <img src="./assets/img_3.jpeg" alt="What is Political Visual Banner" loading="lazy">
+            <span class="image-badge-tag">Plate 04 · Democratic Governance</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 05: What is the Political Self?
+         ====================================================================== -->
+    <section class="module-section theme-ochre" id="sec-political-self-concept">
+      <div class="section-ghost-watermark">POLITICAL SELF</div>
+      <div class="section-container">
+        <div class="editorial-split">
+          <div class="editorial-content">
+            <div class="section-index-badge">04<span>.</span></div>
+            <span class="section-tagline">Ideology &amp; Social Movements</span>
+            <h2 class="section-title" data-kinetic-words>What is the Political Self?</h2>
+            <p class="section-lead">
+              The internal psychological architecture that translates individual ethics into public action, civic movements, and societal reform.
+            </p>
+
+            <div class="card-grid" style="grid-template-columns:1fr;gap:18px;">
+              <div class="tilt-card">
+                <div class="tilt-card-content">
+                  <div class="card-num-badge">1</div>
+                  <h3 class="card-title">Vision of the “Good Society”</h3>
+                  <p class="card-body">
+                    These are internalized beliefs about what a just society looks like, the limits of state regulation, economic equity, and individual civil liberties.
+                  </p>
+                </div>
+              </div>
+
+              <div class="tilt-card">
+                <div class="tilt-card-content">
+                  <div class="card-num-badge">2</div>
+                  <h3 class="card-title">Political Self-Organization</h3>
+                  <p class="card-body">
+                    Political self-organization refers to the spontaneous emergence of political patterns through the local interactions of citizens—manifested in public opinion, civic coalitions, and historical revolutions (such as the 1896 Katipunan and 1986 EDSA People Power).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="editorial-media">
+            <div class="image-frame-3d">
+              <img src="./assets/img_13.jpg" alt="What is the Political Self Plate" loading="lazy">
+              <span class="image-badge-tag">Plate 05 · The Ideological Mind</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 06: Filipino Traits and Values (The Kapwa Core)
+         ====================================================================== -->
+    <section class="module-section theme-green" id="sec-filipino-traits">
+      <div class="section-ghost-watermark">TRAITS &amp; VALUES</div>
+      <div class="section-container">
+      <div class="editorial-split traits-split" style="margin-bottom: 2.5rem;">
+  <div>
+    <div class="section-header">
+      <div class="section-index-badge">05<span>.</span></div>
+      <span class="section-tagline">Cultural Psychology</span>
+      <h2 class="section-title" data-kinetic-words>
+        Filipino Traits and Values
+      </h2>
+      <p class="section-lead" style="margin-bottom: 1.2rem">
+        The term <strong>Kapwa</strong> (a shared inner self) lies at the
+        core of Filipino values and psychology. Both at the individual
+        and community level, profound emphasis is placed on social
+        acceptance, emotional resonance, and maintaining cosmic harmony.
+      </p>
+    </div>
+
+    <p style="font-size: 1.05rem; line-height: 1.65; color: var(--c-cream); margin-bottom: 1.5rem">
+      In Sikolohiyang Pilipino, Filipino identity is fundamentally
+      relational. An individual’s self-worth is not divorced from the
+      community; rather, to have <em>Kapwa</em> is to recognize that
+      "the other person is also yourself"
+      (<em>ang kapwa ay hindi iba kundi sarili rin</em>).
+    </p>
+
+    <div class="traits-filter-nav">
+      <button class="trait-filter-btn active" data-filter="all">All Values (11)</button>
+      <button class="trait-filter-btn" data-filter="positive">Strengths &amp; Adaptive (5)</button>
+      <button class="trait-filter-btn" data-filter="challenge">Cultural Challenges (6)</button>
+    </div>
+  </div>
+
+  <div class="image-frame-3d">
+    <img src="./assets/img_5.jpeg" alt="Filipino Traits and Values Banner" loading="lazy">
+    <span class="image-badge-tag">Plate 06 · The Kapwa Core</span>
+  </div>
+</div>
+
+        <!-- Dynamic Traits Cloud Grid -->
+        <div class="traits-chips-cloud" id="traits-cloud">
+          <!-- Populated dynamically by app.js -->
+        </div>
+
+        <!-- Trait Detail Pop-up Card -->
+        <div class="trait-detail-pop" id="trait-detail-box" style="display:none;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <h4 id="trait-detail-name" style="font-size:1.3rem;font-weight:800;color:var(--c-gold)">Trait Name</h4>
+            <span id="trait-detail-type" style="font-size:0.75rem;font-weight:700;text-transform:uppercase;">Classification</span>
+          </div>
+          <p id="trait-detail-desc" style="font-size:0.95rem;color:var(--c-cream-dim);line-height:1.6">
+            Detailed cultural and psychological analysis will appear here.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTIONS 07 & 08: Accommodative vs. Confrontative Surface Values
+         (Interactive 3D Gyroscope Flipper)
+         ====================================================================== -->
+    <section class="module-section theme-blue" id="sec-surface-values">
+      <div class="section-ghost-watermark">SURFACE VALUES</div>
+      <div class="section-container">
+        <div class="section-header">
+          <div class="section-index-badge">06 &amp; 07<span>.</span></div>
+          <span class="section-tagline">Sikolohiyang Pilipino Dualism</span>
+          <h2 class="section-title" data-kinetic-words>Accommodative &amp; Confrontative Values</h2>
+          <p class="section-lead">
+            Dr. Virgilio Enriquez revealed that Filipino surface values exist in a dynamic equilibrium: accommodating values preserve social peace, while confrontative values mobilize courageous revolution when survival or justice is imperiled.
+          </p>
+        </div>
+
+        <!-- Gyro Controls -->
+        <div class="values-gyro-wrapper">
+          <div class="values-gyro-controls">
+            <button class="gyro-tab-btn active" id="tab-accommodative">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <span>Accommodative Surface Values (07)</span>
+            </button>
+            <button class="gyro-tab-btn" id="tab-confrontative">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span>Confrontative Surface Values (08)</span>
+            </button>
+          </div>
+
+          <!-- 3D Flipping Card -->
+          <div class="gyro-3d-flipper" id="values-3d-flipper">
+            <!-- FRONT FACE: Accommodative -->
+            <div class="gyro-face front">
+              <div>
+                <div class="gyro-face-header">
+                  <div>
+                    <span class="section-tagline">Section 07 · Social Harmonization</span>
+                    <h3 style="font-size:1.6rem;font-weight:800;color:var(--c-blue-glow)">Accommodative Surface Values</h3>
+                  </div>
+                  <span class="hero-pill-badge" style="background:rgba(56,163,255,0.2);color:var(--c-blue-glow);border-color:rgba(56,163,255,0.3)">
+                    Relational Stability
+                  </span>
+                </div>
+
+                <div class="values-cards-row">
+                  <div class="value-item-card">
+                    <div class="value-term">Hiya</div>
+                    <div class="value-meaning">
+                      <strong>“Sense of Propriety”</strong> — Often mistranslated by Westerners as mere "shame", <em>hiya</em> is genuinely an acute awareness of social dignity, manners, and deference that prevents dishonoring oneself and one’s kin.
+                    </div>
+                  </div>
+
+                  <div class="value-item-card">
+                    <div class="value-term">Utang na Loob</div>
+                    <div class="value-meaning">
+                      <strong>“Norm of Sacred Reciprocity”</strong> — An eternal internal debt of gratitude created when a person extends genuine assistance in times of vulnerability. It binds individuals in enduring solidarity.
+                    </div>
+                  </div>
+
+                  <div class="value-item-card">
+                    <div class="value-term">Pakikisama &amp; Pakikipagkapwa</div>
+                    <div class="value-meaning">
+                      <strong>“Conformity &amp; Companionship”</strong> — Guided by solidarity and alignment with the group. It fosters smooth interpersonal relations (SIR) and mutual support.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top:10px;">
+                <div class="image-frame-3d">
+                  <img src="./assets/img_6.jpeg" alt="Accommodative Surface Values Plate" loading="lazy">
+                  <span class="image-badge-tag">Plate 07 · Harmonization</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Confrontative -->
+            <div class="gyro-face back">
+              <div>
+                <div class="gyro-face-header">
+                  <div>
+                    <span class="section-tagline">Section 08 · Resolute Action &amp; Resistance</span>
+                    <h3 style="font-size:1.6rem;font-weight:800;color:var(--c-ochre-glow)">Confrontative Surface Values</h3>
+                  </div>
+                  <span class="hero-pill-badge" style="background:rgba(245,158,11,0.2);color:var(--c-ochre-glow);border-color:rgba(245,158,11,0.3)">
+                    Courage &amp; Struggle
+                  </span>
+                </div>
+
+                <div class="values-cards-row">
+                  <div class="value-item-card">
+                    <div class="value-term">Bahala Na</div>
+                    <div class="value-meaning">
+                      <strong>“Determination in the Face of the Unknown”</strong> — Derived from <em>Bathala na</em> (God’s will). Far from fatalistic surrender, it describes the resolute courage to do one’s utmost when outcomes are uncertain.
+                    </div>
+                  </div>
+
+                  <div class="value-item-card">
+                    <div class="value-term">Lakas ng Loob</div>
+                    <div class="value-meaning">
+                      <strong>“Inner Courage &amp; Fortitude”</strong> — Characterized by audacious bravery in the midst of overwhelming crises, uncertainties, and moral tests.
+                    </div>
+                  </div>
+
+                  <div class="value-item-card">
+                    <div class="value-term">Pakikibaka</div>
+                    <div class="value-meaning">
+                      <strong>“Concurrent Clashes &amp; Resistance”</strong> — The historical capacity of the Filipino populace to organize uprisings and revolutions against tyranny, colonial oppression, and injustice.
+                    </div>
+                  </div>
+
+                  <div class="value-item-card">
+                    <div class="value-term">Kapwa (Core)</div>
+                    <div class="value-meaning">
+                      <strong>“The Shared Inner Self”</strong> — The foundational bridge linking both accommodative and confrontative dimensions into one cohesive philosophy of being.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top: clamp(2rem, 4vw, 3.5rem);">
+                <div class="image-frame-3d">
+                  <img src="./assets/img_7.jpeg" alt="Confrontative Surface Values Plate" loading="lazy">
+                  <span class="image-badge-tag">Plate 08 · Revolutionary Spirit</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 09: The 8 Levels of Kapwa (3D Interactive Ring Visualizer)
+         ====================================================================== -->
+    <section class="module-section theme-green" id="sec-kapwa-levels">
+      <div class="section-ghost-watermark">IBANG TAO AT HINDI IBANG TAO</div>
+      <div class="section-container">
+        <div class="section-header">
+          <div class="section-index-badge">09<span>.</span></div>
+          <span class="section-tagline">Sikolohiyang Pilipino Interactional Depth</span>
+          <h2 class="section-title" data-kinetic-words>The 8 Levels of Kapwa Interaction</h2>
+          <p class="section-lead">
+            Virgilio Enriquez mapped human relationships along a psychological continuum—from exterior social civility (<em>Ibang Tao</em>) to total sacred oneness (<em>Hindi Ibang Tao</em>).
+          </p>
+        </div>
+
+        <div class="kapwa-3d-layout">
+          <!-- 3D Concentric Ring Funnel Canvas -->
+          <div class="kapwa-canvas-container">
+            <canvas id="kapwa-canvas" aria-label="3D Interactive Concentric Cylinder of Kapwa Levels"></canvas>
+            <div class="kapwa-canvas-overlay">
+              <span class="kapwa-legend-chip" style="color:var(--c-blue-glow);border-color:rgba(56,163,255,0.4)">
+                Levels 1-5: Ibang Tao (Outsider)
+              </span>
+              <span class="kapwa-legend-chip" style="color:var(--c-gold);border-color:rgba(245,183,0,0.4)">
+                Levels 6-8: Hindi Ibang Tao (One of Us)
+              </span>
+            </div>
+          </div>
+
+          <!-- Interactive Levels Selector List -->
+          <div class="kapwa-table-container">
+            <h3 style="font-size:1.25rem;font-weight:800;color:var(--c-gold)">
+              Interactive Relationship Hierarchy
+            </h3>
+            <p style="font-size:0.85rem;color:var(--c-cream-dim)">
+              Click any level to pivot the 3D concentric cylinder and examine the cultural nuances:
+            </p>
+
+            <div class="kapwa-levels-list">
+              <!-- Outsider Levels -->
+              <div class="kapwa-level-row outsider" data-level="1">
+                <span class="kapwa-level-rank">01</span>
+                <span class="kapwa-level-name">Pakikitungo</span>
+                <span class="kapwa-level-meaning">Civility &amp; Courteous Interaction</span>
+              </div>
+              <div class="kapwa-level-row outsider" data-level="2">
+                <span class="kapwa-level-rank">02</span>
+                <span class="kapwa-level-name">Pakikisalamuha</span>
+                <span class="kapwa-level-meaning">Act of Mixing &amp; Socializing</span>
+              </div>
+              <div class="kapwa-level-row outsider" data-level="3">
+                <span class="kapwa-level-rank">03</span>
+                <span class="kapwa-level-name">Pakikilahok</span>
+                <span class="kapwa-level-meaning">Act of Joining &amp; Participating</span>
+              </div>
+              <div class="kapwa-level-row outsider" data-level="4">
+                <span class="kapwa-level-rank">04</span>
+                <span class="kapwa-level-name">Pakikibagay</span>
+                <span class="kapwa-level-meaning">Conformity &amp; Behavioral Adaptation</span>
+              </div>
+              <div class="kapwa-level-row outsider" data-level="5">
+                <span class="kapwa-level-rank">05</span>
+                <span class="kapwa-level-name">Pakikisama</span>
+                <span class="kapwa-level-meaning">Being United with One Group</span>
+              </div>
+
+              <!-- Sacred Threshold Divider -->
+              <div style="padding:6px 14px;background:rgba(245,183,0,0.15);border:1px dashed var(--c-gold);border-radius:var(--radius-sm);font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--c-gold);text-align:center">
+                ✦ The Sacred Threshold: Crossing to "Hindi Ibang Tao" ✦
+              </div>
+
+              <!-- Insider Levels -->
+              <div class="kapwa-level-row insider" data-level="6">
+                <span class="kapwa-level-rank">06</span>
+                <span class="kapwa-level-name">Pakikipagpalagayang-loob</span>
+                <span class="kapwa-level-meaning">Mutual Trust, Rapport &amp; Vulnerability</span>
+              </div>
+              <div class="kapwa-level-row insider" data-level="7">
+                <span class="kapwa-level-rank">07</span>
+                <span class="kapwa-level-name">Pakikisangkot</span>
+                <span class="kapwa-level-meaning">Active Involvement in Another's Burden</span>
+              </div>
+              <div class="kapwa-level-row insider active" data-level="8">
+                <span class="kapwa-level-rank">08</span>
+                <span class="kapwa-level-name">Pakikipagkaisa</span>
+                <span class="kapwa-level-meaning">Total Oneness &amp; Shared Destiny</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:2.5rem;">
+          <div class="image-frame-3d">
+            <img src="./assets/img_8.jpeg" alt="Ibang Tao at Hindi Ibang Tao Plate" loading="lazy">
+            <span class="image-badge-tag">Plate 09 · The Spectrum of Kapwa</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 10: Filipino Cultural Markers
+         ====================================================================== -->
+    <section class="module-section theme-blue" id="sec-markers">
+      <div class="section-ghost-watermark">FILIPINO MARKERS</div>
+      <div class="section-container">
+        <div class="section-header">
+          <div class="section-index-badge">10<span>.</span></div>
+          <span class="section-tagline">Cultural Memory &amp; Artifacts</span>
+          <h2 class="section-title" data-kinetic-words>Filipino Cultural Markers</h2>
+          <p class="section-lead">
+            The narrative conduits that transmit moral codes, civic consciousness, and historical identity across generations.
+          </p>
+        </div>
+
+        <!-- 3D Markers Cards -->
+        <div class="markers-3d-deck">
+          <div class="marker-card-3d">
+            <div class="marker-icon-wrapper">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            </div>
+            <h3 style="font-size:1.25rem;font-weight:800;color:var(--c-cream)">Proverbs (Salawikain)</h3>
+            <p style="font-size:0.92rem;color:var(--c-cream-dim);line-height:1.55">
+              Traditional maxims and verses derived from local culture and indigenous philosophies that serve as compasses for daily conduct and social etiquette.
+            </p>
+          </div>
+
+          <div class="marker-card-3d">
+            <div class="marker-icon-wrapper">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <h3 style="font-size:1.25rem;font-weight:800;color:var(--c-cream)">Superstitions (Pamahiin)</h3>
+            <p style="font-size:0.92rem;color:var(--c-cream-dim);line-height:1.55">
+              Folk beliefs and practices based on synchronicity, respect for unseen spirits (<em>anito</em>), and the quest for spiritual harmony in daily life.
+            </p>
+          </div>
+
+          <div class="marker-card-3d">
+            <div class="marker-icon-wrapper">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h3 style="font-size:1.25rem;font-weight:800;color:var(--c-cream)">Myths &amp; Legends</h3>
+            <p style="font-size:0.92rem;color:var(--c-cream-dim);line-height:1.55">
+              Oral folk histories and origin tales (e.g. Malakas at Maganda, Bernardo Carpio) that morph historical events into romanticized, larger-than-life narratives.
+            </p>
+          </div>
+
+          <div class="marker-card-3d">
+            <div class="marker-icon-wrapper">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            </div>
+            <h3 style="font-size:1.25rem;font-weight:800;color:var(--c-cream)">Heroes &amp; Icons (Bayani)</h3>
+            <p style="font-size:0.92rem;color:var(--c-cream-dim);line-height:1.55">
+              Jose Rizal, Andres Bonifacio, Tandang Sora, and countless unsung patriots serving as eternal reminders of true patriotism and selfless civic sacrifice.
+            </p>
+          </div>
+        </div>
+
+        <!-- Proverbs Generator Widget -->
+        <div class="proverbs-generator">
+          <span class="hero-pill-badge" style="background:rgba(245,183,0,0.15);color:var(--c-gold);border-color:var(--c-gold)">
+            Interactive Salawikain Generator
+          </span>
+          <div class="proverb-display" id="proverb-text">
+            <strong>“Ang hindi marunong lumingon sa pinanggalingan ay hindi makakarating sa paroroonan.”</strong><br>
+            <span class="proverb-translation">He who does not look back to where he came from will never reach his destination.</span>
+          </div>
+          <div style="font-size:0.85rem;color:var(--c-cream-dim);font-family:var(--font-mono)" id="proverb-lesson">
+            Lesson: Core tenet of Utang na Loob and historical consciousness.
+          </div>
+          <button class="btn btn-secondary" id="next-proverb-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            <span>Generate New Salawikain Wisdom</span>
+          </button>
+        </div>
+
+        <div style="margin-top:2.5rem;">
+          <div class="image-frame-3d">
+            <img src="./assets/img_9.jpeg" alt="Filipino Markers Plate" loading="lazy">
+            <span class="image-badge-tag">Plate 10 · Cultural Heritage</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- New sections from the Group 8 presentation PDF -->
+    <section class="module-section theme-green" id="sec-community">
+      <div class="section-ghost-watermark">COMMON GOOD</div>
+      <div class="section-container">
+        <div class="section-header">
+          <div class="section-index-badge">11<span>.</span></div>
+          <span class="section-tagline">Community &amp; institutions</span>
+          <h2 class="section-title" data-kinetic-words>Political Community and Institutions</h2>
+          <p class="section-lead">According to Aristotle, communities are established for the sake of a common good. A political community shares goals such as social justice, education, and economic development.</p>
+        </div>
+        <p class="civic-intro">Political institutions help organize public life, protect citizens’ interests, and support the rule of law. Select each card to explore its role.</p>
+        <div class="civic-grid">
+          <details class="civic-card"><summary>Legislature <span>＋</span></summary><p>Makes and deliberates on laws that guide public life.</p></details>
+          <details class="civic-card"><summary>Judiciary <span>＋</span></summary><p>Interprets laws and resolves disputes in accordance with the law.</p></details>
+          <details class="civic-card"><summary>Political parties <span>＋</span></summary><p>Organize people around political ideas and participate in elections.</p></details>
+          <details class="civic-card"><summary>Trade unions <span>＋</span></summary><p>Bring workers together to represent shared interests.</p></details>
+        </div>
+        <div class="civic-discuss"><strong>CLASS DISCUSSION</strong><p>What does the common good mean in your community?</p></div>
+      </div>
+    </section>
+    <section class="module-section theme-blue" id="sec-democracy">
+      <div class="section-ghost-watermark">DEMOCRACY</div>
+      <div class="section-container">
+        <div class="section-header">
+          <div class="section-index-badge">12<span>.</span></div>
+          <span class="section-tagline">Participation &amp; cooperation</span>
+          <h2 class="section-title" data-kinetic-words>Establishing a Democratic Culture</h2>
+          <p class="section-lead">Democracy gives eligible citizens the right to participate directly or indirectly in decisions that affect them. Democratic culture grows when people take part in public affairs and work together.</p>
+        </div>
+        <div class="civic-grid">
+          <details class="civic-card"><summary>Participate <span>＋</span></summary><p>Take an active role in government and public affairs.</p></details>
+          <details class="civic-card"><summary>Listen <span>＋</span></summary><p>Understand other people’s concerns, priorities, and needs.</p></details>
+          <details class="civic-card"><summary>Connect <span>＋</span></summary><p>Build meaningful relationships through cooperation and shared interests.</p></details>
+          <details class="civic-card"><summary>Support <span>＋</span></summary><p>Find ways to help others while allowing them to support you, too.</p></details>
+        </div>
+        <div class="civic-discuss"><strong>CLASS DISCUSSION</strong><p>How can our class make sure every voice is heard?</p></div>
+      </div>
+    </section>
+    <section class="module-section theme-green" id="sec-political-skills">
+      <div class="section-ghost-watermark">POLITICAL SKILLS</div>
+      <div class="section-container">
+        <div class="section-header">
+          <div class="section-index-badge">13<span>.</span></div>
+          <span class="section-tagline">Understanding &amp; influence</span>
+          <h2 class="section-title" data-kinetic-words>Strengthening Your Political Skills</h2>
+          <p class="section-lead">Political skills help us understand others, build relationships, and influence people to achieve personal or organizational goals.</p>
+        </div>
+        <p class="civic-intro">Explore the four dimensions of political skills:</p>
+        <div class="civic-grid">
+          <details class="civic-card"><summary>Social astuteness <span>＋</span></summary><p>Understanding other people’s behavior and interests.</p></details>
+          <details class="civic-card"><summary>Interpersonal influence <span>＋</span></summary><p>Making others feel comfortable and at ease.</p></details>
+          <details class="civic-card"><summary>Networking ability <span>＋</span></summary><p>Building connections to achieve goals.</p></details>
+          <details class="civic-card"><summary>Apparent sincerity <span>＋</span></summary><p>Being genuine, honest, and sincere toward others.</p></details>
+        </div>
+        <div class="civic-discuss"><strong>CLASS DISCUSSION</strong><p>Which skill would you use to help a group solve a disagreement?</p></div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         FINAL SECTION: Closing reflection
+         ====================================================================== -->
+    <section class="module-section quiz-section" id="sec-quiz">
+      <div class="section-ghost-watermark" style="margin-left: 35%;">QUOTE</div>
+      <div class="section-container">
+        <div class="section-header" style="text-align:center;">
+          <h2 class="section-title" style="max-width:none;" data-kinetic-words>"The way we understand ourselves shapes the way we participate in society."</h2>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================================================================
+       3D PRESENTATION DECK MODE (Full Screen Slideshow)
+       ====================================================================== -->
+  <div id="presentation-deck-mode" role="dialog" aria-modal="true" aria-label="3D Presentation Deck">
+    <div class="deck-nav-bar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="nav-brand-badge" style="background:var(--c-gold);color:#000">DECK MODE</span>
+        <span style="font-weight:800;font-size:0.95rem">Understanding the Self · Group 8</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span id="deck-counter" style="font-family:var(--font-mono);font-size:0.85rem;color:var(--c-gold)">01 / 11</span>
+        <button id="close-deck-btn" class="nav-btn" aria-label="Exit Deck Mode">
+          <span>Exit (ESC)</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="deck-stage-viewport">
+      <!-- Slide 0: Hero -->
+      <div class="deck-slide active">
+        <span class="section-tagline">Group 8 Course Presentation</span>
+        <h2 style="font-size:clamp(32px, 5vw, 68px);font-weight:800;line-height:1.05;margin-bottom:1rem;color:var(--c-gold-bright)">
+          Understanding the Self:<br>The Political Self
+        </h2>
+        <p style="font-size:clamp(16px, 1.8vw, 22px);color:var(--c-cream-dim);max-width:45ch;margin-bottom:2rem">
+          A philosophical, constitutional, and psychological journey into the Filipino citizen and collective nationhood.
+        </p>
+        <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--c-cream-subtle)">
+          Use Arrow Keys [← / →] to navigate slides
+        </div>
+      </div>
+
+      <!-- Slide 1: Objectives -->
+      <div class="deck-slide next">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+          <span class="section-index-badge" style="font-size:2.5rem">01<span>.</span> Objectives</span>
+          <span class="hero-pill-badge">Course Goals</span>
+        </div>
+        <p style="font-size:1.15rem;color:var(--c-cream-dim);margin-bottom:1.5rem">
+          1. Define the Political Self and its role in shaping personal identity.<br>
+          2. Identify the factors influencing political beliefs, values, and perspectives.<br>
+          3. Recognize civic responsibilities and the importance of democratic participation.
+        </p>
+        <img src="./assets/img_0.jpeg" alt="Objectives Slide" style="max-height:40vh;object-fit:cover;border-radius:12px;">
+      </div>
+
+      <!-- Slide 2: The Political Self -->
+      <div class="deck-slide next">
+        <div class="section-index-badge" style="font-size:2.5rem">02<span>.</span> The Political Self</div>
+        <p style="font-size:1.25rem;color:var(--c-gold);margin-bottom:1rem;font-style:italic">
+          “Man is by nature a political animal.” — Aristotle
+        </p>
+        <p style="font-size:1.1rem;color:var(--c-cream-dim);margin-bottom:1.5rem">
+          • People are naturally obligated to participate in a political system as social citizens.<br>
+          • Politics is fundamentally how people living in groups negotiate and make collective decisions.
+        </p>
+        <img src="./assets/img_1.jpeg" alt="Political Self Slide" style="max-height:40vh;object-fit:cover;border-radius:12px;">
+      </div>
+
+      <!-- Slide 3: Who is a Filipino? -->
+      <div class="deck-slide next">
+        <div class="section-index-badge" style="font-size:2.5rem">03<span>.</span> Who is a Filipino?</div>
+        <p style="font-size:1rem;color:var(--c-gold);text-transform:uppercase;margin-bottom:0.8rem">
+          According to Article IV, 1987 Philippine Constitution
+        </p>
+        <p style="font-size:1.05rem;color:var(--c-cream-dim);margin-bottom:1.5rem">
+          1. Those whose father or mother are citizens of the Philippines (Jus Sanguinis).<br>
+          2. Those born before Jan. 17, 1973 of Filipino mothers electing citizenship upon majority.<br>
+          3. Those who are naturalized in accordance with law.
+        </p>
+        <img src="./assets/img_2.jpeg" alt="Who is a Filipino Slide" style="max-height:40vh;object-fit:cover;border-radius:12px;">
+      </div>
+
+      <!-- Slide 4: What is Political? -->
+      <div class="deck-slide next">
+        <div class="section-index-badge" style="font-size:2.5rem">04<span>.</span> What is Political?</div>
+        <p style="font-size:1.05rem;color:var(--c-cream-dim);margin-bottom:1.5rem">
+          • Politics is the way people living in groups make collective decisions.<br>
+          • Primarily concerned with the formulation and justification of governmental policy.<br>
+          • A republic is a political system wherein sovereign power remains subject to those governed.
+        </p>
+        <img src="./assets/img_3.jpeg" alt="What is Political Slide" style="max-height:40vh;object-fit:cover;border-radius:12px;">
+      </div>
+
+      <!-- Slide 5: What is Political Self? -->
+      <div class="deck-slide next">
+        <div class="section-index-badge" style="font-size:2.5rem">05<span>.</span> What is Political Self?</div>
+        <p style="font-size:1.05rem;color:var(--c-cream-dim);margin-bottom:1.5rem">
+          • Internal beliefs regarding what a "good society" means and appropriate state regulation.<br>
+          • Political self-organization: spontaneous emergence of public opinion, civic coalitions, and historical revolutions.
+        </p>
+        <img src="./assets/img_4.jpeg" alt="Political Self Slide" style="max-height:40vh;object-fit:cover;border-radius:12px;">
+      </div>
+
+      <!-- Slide 6: Filipino Traits and Values -->
+      <div class="deck-slide next">
+        <div class="section-index-badge" style="font-size:2.5rem">06<span>.</span> Filipino Traits and Values</div>
+        <p style="font-size:1.15rem;color:var(--c-gold);margin-bottom:1rem">
+          The Kapwa Core: A shared inner self bridging individuality with the collective.
+        </p>
+        <p style="font-size:1rem;color:var(--c-cream-dim);margin-bottom:1.5rem">
+          Hospitality · Close Family Ties · Bayanihan · Cheerful &amp; Optimistic · Respect (Paggalang) · Mañana Habit · Crab Mentality · Colonial Mentality · Pride · Filipino Time · Ningas Kugon
+        </p>
+        <img src="./assets/img_5.jpeg" alt="Traits Slide" style="max-height:40vh;object-fit:cover;border-radius:12px;">
+      </div>
+
+      <!-- Slide 7: Accommodative Surface Values -->
+      <div class="deck-slide next">
+        <div class="section-index-badge" style="font-size:2.5rem">07<span>.</span> Accommodative Surface Values</div>
+        <p style="font-size:1.05rem;color:var(--c-cream-dim);margin-bottom:1.5rem">
+          <strong>Hiya:</strong> “Sense of propriety” and acute social dignity.<br>
+          <strong>Utang na Loob:</strong> Norm of sacred reciprocity and enduring gratitude.<br>
+          <strong>Pakikisama:</strong> Conformity with group harmony and companionship.
+        </p>
+        <img src="./assets/img_6.jpeg" alt="Accommodative Slide" style="max-height:40vh;object-fit:cover;border-radius:12px;">
+      </div>
+
+      <!-- Slide 8: Confrontative Surface Values -->
+      <div class="deck-slide next">
+        <div class="section-index-badge" style="font-size:2.5rem">08<span>.</span> Confrontative Surface Values</div>
+        <p style="font-size:1.05rem;color:var(--c-cream-dim);margin-bottom:1.5rem">
+          <strong>Bahala Na:</strong> Determination to do one's utmost in the face of uncertainty.<br>
+          <strong>Lakas ng Loob:</strong> Inner courage and moral fortitude.<br>
+          <strong>Pakikibaka:</strong> Revolutionary capacity to resist common oppression.<br>
+          <strong>Kapwa:</strong> The unifying recognition of shared identity.
+        </p>
+        <img src="./assets/img_7.jpeg" alt="Confrontative Slide" style="max-height:40vh;object-fit:cover;border-radius:12px;">
+      </div>
+
+      <!-- Slide 9: Ibang Tao at Hindi Ibang Tao -->
+      <div class="deck-slide next">
+        <div class="section-index-badge" style="font-size:2.5rem">09<span>.</span> 8 Levels of Kapwa</div>
+        <p style="font-size:1rem;color:var(--c-cream-dim);margin-bottom:1.5rem">
+          <strong>Ibang Tao (Outsider):</strong> Pakikitungo (Civility) → Pakikisalamuha (Mixing) → Pakikilahok (Joining) → Pakikibagay (Conformity) → Pakikisama (Camaraderie).<br><br>
+          <strong>Hindi Ibang Tao (One of Us):</strong> Pakikipagpalagayang-loob (Mutual Trust) → Pakikisangkot (Involvement) → Pakikipagkaisa (Total Oneness).
+        </p>
+        <img src="./assets/img_8.jpeg" alt="8 Levels Slide" style="max-height:40vh;object-fit:cover;border-radius:12px;">
+      </div>
+
+      <!-- Slide 10: Cultural Markers -->
+      <div class="deck-slide next">
+        <div class="section-index-badge" style="font-size:2.5rem">10<span>.</span> Filipino Cultural Markers</div>
+        <p style="font-size:1.05rem;color:var(--c-cream-dim);margin-bottom:1.5rem">
+          <strong>Proverbs (Salawikain):</strong> Traditional sayings encoding ancestral wisdom.<br>
+          <strong>Superstitions:</strong> Spiritual synchronicity and folk beliefs.<br>
+          <strong>Myths and Legends:</strong> Folk histories morphing into larger-than-life lore.<br>
+          <strong>Heroes and Icons:</strong> Reminders of true patriotism and selfless civic sacrifice.
+        </p>
+        <img src="./assets/img_9.jpeg" alt="Cultural Markers Slide" style="max-height:40vh;object-fit:cover;border-radius:12px;">
+      </div>
+
+      <!-- New PDF slides 11–13 -->
+      <div class="deck-slide next">
+        <div class="section-index-badge" style="font-size:2.5rem">11<span>.</span> Political Community &amp; Institutions</div>
+        <p class="civic-deck-text">A political community shares goals and values, including social justice, education, and economic development.</p>
+        <p class="civic-deck-text">Institutions such as legislatures, courts, parties, and unions organize public life and represent citizens’ interests.</p>
+      </div>
+      <div class="deck-slide next">
+        <div class="section-index-badge" style="font-size:2.5rem">12<span>.</span> Democratic Culture</div>
+        <p class="civic-deck-text">Democracy gives eligible citizens a voice in decisions that affect them.</p>
+        <p class="civic-deck-text">Participate, listen to others, build relationships, and cooperate for the common good.</p>
+      </div>
+      <div class="deck-slide next">
+        <div class="section-index-badge" style="font-size:2.5rem">13<span>.</span> Political Skills</div>
+        <p class="civic-deck-text">Social astuteness · Interpersonal influence · Networking ability · Apparent sincerity</p>
+        <p class="civic-deck-text">Understand others, build relationships, and work together toward shared goals.</p>
+      </div>
+    </div>
+
+    <div class="deck-footer-bar">
+      <button class="btn btn-secondary" id="deck-prev-btn">← Previous Slide</button>
+      <div class="deck-dots-indicator" id="deck-dots"></div>
+      <button class="btn btn-primary" id="deck-next-btn">Next Slide →</button>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       SEARCH MODAL
+       ====================================================================== -->
+  <div id="search-modal" role="dialog" aria-modal="true" aria-label="Search Concepts">
+    <div class="search-container">
+      <div class="search-input-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="search-input" placeholder="Search concepts: Kapwa, Bayanihan, Article IV, Bahala na..." autocomplete="off">
+        <button id="close-search-btn" class="nav-btn" style="padding:4px 8px;font-size:0.75rem;">ESC</button>
+      </div>
+      <div class="search-results-list" id="search-results">
+        <!-- Results injected here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       IMAGE LIGHTBOX MODAL
+       ====================================================================== -->
+  <div id="image-lightbox" role="dialog" aria-modal="true" aria-label="Image Zoom">
+    <img id="lightbox-img" src="" alt="Zoomed View">
+  </div>
+
+  <!-- ======================================================================
+       SITE FOOTER
+       ====================================================================== -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h4>Understanding the Self · Group 8</h4>
+        <p>
+          An academic course presentation module examining the psychological, cultural, and constitutional foundations of the Political Self in contemporary Philippine society.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Course Modules</h5>
+        <ul class="footer-links">
+          <li><a href="#sec-objectives">01. Objectives</a></li>
+          <li><a href="#sec-political-self">02. Political Self</a></li>
+          <li><a href="#sec-who-is-filipino">03. Article IV Citizenship</a></li>
+          <li><a href="#sec-filipino-traits">06. Traits &amp; Kapwa</a></li>
+          <li><a href="#sec-surface-values">07-08. Surface Values</a></li>
+          <li><a href="#sec-kapwa-levels">09. 8 Levels of Kapwa</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Key References</h5>
+        <ul class="footer-links">
+          <li><a href="#sec-who-is-filipino">1987 Philippine Constitution</a></li>
+          <li><a href="#sec-filipino-traits">Virgilio Enriquez (Sikolohiyang Pilipino)</a></li>
+          <li><a href="#sec-political-self">Aristotle's <em>Politics</em></a></li>
+          <li><a href="#sec-markers">Salawikain Oral Tradition</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 Understanding the Self · Group 8. Interactive 3D Educational Edition.</div>
+      <div style="font-family:var(--font-mono)">Pure CSS3D, WebGL &amp; Web Audio Engine</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="./js/audio.js"></script>
+  <script src="./js/three-d-engine.js"></script>
+  <script src="./js/card-focus.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>
