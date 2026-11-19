@@ -2072,3 +2072,17 @@ button {
 .value-focus-dialog small { color: #b6c3b2; font-size: 1rem; }
 .value-focus-close { display: block; margin: 0 0 2rem auto; padding: .7rem 1.2rem; border: 1px solid #f5b700; border-radius: 999px; background: transparent; color: #fff4d6; font-size: 1rem; cursor: pointer; }
 .value-focus-close:hover, .value-focus-close:focus-visible { background: #f5b700; color: #07140d; }
+
+/* Keep both surface-value images inside the flip panel at matching sizes. */
+.gyro-3d-flipper { display: grid; }
+.gyro-face { height: auto; min-height: 480px; }
+.gyro-face .image-frame-3d img {
+  width: 100%;
+  aspect-ratio: 3.3 / 1;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+}
+@media (max-width: 700px) {
+  .gyro-face .image-frame-3d img { aspect-ratio: 16 / 9; }
+}
