@@ -81,7 +81,14 @@ body {
   background: var(--c-gold);
   color: #070e0a;
 }
-
+ 
+/* Extra guard while a pointer is captured by either 3D canvas. */
+body.is-3d-dragging,
+body.is-3d-dragging * {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  user-select: none !important;
+}
 img {
   max-width: 100%;
   height: auto;
@@ -286,6 +293,16 @@ button {
   padding: calc(var(--nav-h) + 30px) clamp(20px, 5vw, 60px) 60px;
   overflow: hidden;
   background: radial-gradient(circle at 50% 35%, #0f3818 0%, #07160c 60%, var(--c-bg) 100%);
+}
+/* The 3D scenes are drag surfaces, not text. Without this, dragging near the
+   large typography can select stray letters and paint gold selection bars. */
+.hero-section,
+.kapwa-canvas-container,
+#hero-3d-canvas,
+#kapwa-canvas {
+  -webkit-user-select: none;
+  -moz-user-select: none;      
+  user-select: none; 
 }
 
 #hero-3d-canvas {
