@@ -2029,6 +2029,7 @@ button {
 .civic-deck-text { color: var(--c-cream); font-size: clamp(1.3rem, 2.4vw, 2.2rem); line-height: 1.5; max-width: 45ch; margin: 1rem 0; }
 @media (max-width: 700px) { .civic-grid { grid-template-columns: 1fr; } }
 
+
 /* Hero galaxy: decorative only; the interactive canvas remains clickable. */
 .hero-section {
   background: radial-gradient(ellipse at 55% 40%, #123f31 0%, #091d20 38%, #050b15 75%, #03070d 100%);
@@ -2059,3 +2060,15 @@ button {
 }
 @keyframes galaxy-twinkle { from { opacity: .45; } to { opacity: .95; } }
 @media (prefers-reduced-motion: reduce) { .hero-section::after { animation: none; } }
+
+/* Projector-friendly focus view for surface-value cards */
+.value-item-card { cursor: pointer; }
+.value-item-card:focus-visible { outline: 3px solid #f5b700; outline-offset: 3px; }
+.value-focus-dialog { position: fixed; inset: 0; margin: auto; box-sizing: border-box; width: min(90vw, 1000px); max-width: 1000px; max-height: 85vh; overflow-y: auto; padding: clamp(2rem, 5vw, 5rem); border: 2px solid #f5b700; border-radius: 24px; background: #07140d; color: #fff4d6; box-shadow: 0 25px 80px rgba(0,0,0,.7); }
+.value-focus-dialog::backdrop { background: rgba(0,0,0,.86); }
+.value-focus-label { color: #38a3ff; font-weight: 800; font-size: clamp(1rem,1.5vw,1.4rem); letter-spacing: .08em; margin-bottom: 1rem; }
+.value-focus-dialog h2 { margin: 0 0 1.5rem; color: #f5b700; font-size: clamp(2.5rem,6vw,5rem); line-height: 1.1; }
+#value-focus-description { font-size: clamp(1.3rem,2.5vw,2rem); line-height: 1.5; margin-bottom: 2rem; }
+.value-focus-dialog small { color: #b6c3b2; font-size: 1rem; }
+.value-focus-close { display: block; margin: 0 0 2rem auto; padding: .7rem 1.2rem; border: 1px solid #f5b700; border-radius: 999px; background: transparent; color: #fff4d6; font-size: 1rem; cursor: pointer; }
+.value-focus-close:hover, .value-focus-close:focus-visible { background: #f5b700; color: #07140d; }
