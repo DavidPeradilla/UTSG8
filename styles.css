@@ -2103,3 +2103,69 @@ button {
 @media (max-width: 700px) {
   .gyro-face .image-frame-3d img { aspect-ratio: 16 / 9; }
 }
+
+
+/* Mobile & tablet layout */
+.mobile-nav { display: none; }
+@media (max-width: 1200px) {
+  .site-nav .nav-links { display: none; }
+  .mobile-nav { display: block; position: relative; margin-left: auto; }
+  .mobile-nav summary { cursor: pointer; list-style: none; color: var(--c-cream); border: 1px solid var(--c-border); border-radius: 999px; padding: .65rem .9rem; font-size: .85rem; white-space: nowrap; }
+  .mobile-nav summary::-webkit-details-marker { display: none; }
+  .mobile-nav-panel { position: absolute; top: calc(100% + 12px); right: 0; width: min(280px, 85vw); max-height: min(70vh, 550px); overflow-y: auto; padding: .5rem; border: 1px solid var(--c-border); border-radius: 14px; background: #0a1c11; box-shadow: 0 14px 50px #000a; }
+  .mobile-nav-panel a { display: block; padding: .7rem .85rem; color: var(--c-cream); font-size: .95rem; text-decoration: none; border-radius: 8px; }
+  .mobile-nav-panel a:hover, .mobile-nav-panel a:focus-visible { background: #24402b; }
+  .site-nav { gap: 10px; }
+}
+@media (max-width: 700px) {
+  .site-nav { padding: 0 12px; gap: 6px; }
+  .nav-brand { gap: 6px; min-width: 0; }
+  .nav-brand > span:not(.nav-brand-badge) { font-size: .65rem; line-height: 1.1; max-width: 90px; }
+  .nav-brand-badge { display: none; }
+  .nav-actions { gap: 4px; }
+  .nav-btn { min-width: 38px; min-height: 38px; justify-content: center; padding: 8px; }
+  #open-deck-btn span { display: none; }
+  .mobile-nav summary { padding: .55rem .65rem; }
+  .mobile-nav summary span { display: none; }
+  .hero-section { min-height: 100svh; padding: calc(var(--nav-h) + 35px) 20px 0; flex-direction: column; justify-content: flex-start; align-items: stretch; }
+  .hero-overlay-content { gap: 1.1rem; padding-bottom: 2rem; }
+  .hero-title { font-size: clamp(2.2rem, 9vw, 3.5rem); line-height: 1.08; }
+  .hero-subtitle { font-size: 1rem; line-height: 1.55; }
+  .hero-ghost-text { font-size: clamp(40px, 12vw, 70px); max-width: 100%; }
+  .hero-ctas { gap: .65rem; }
+  .hero-ctas .btn { min-height: 44px; }
+  .hero-interaction-hint { font-size: .75rem; }
+  #hero-3d-canvas { touch-action: pan-y; }
+  .hero-stats-bar { position: relative; margin: auto -20px 0; padding: 16px 20px; }
+  .hero-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .hero-stat-num { font-size: 1.35rem; }
+  .hero-stat-desc { font-size: .65rem; }
+  .module-section { min-height: auto; padding: 70px 20px; }
+  .section-header { margin-bottom: 2rem; }
+  .section-title { overflow-wrap: anywhere; }
+  .editorial-split, .kapwa-3d-layout { grid-template-columns: minmax(0, 1fr); }
+  .editorial-split > *, .kapwa-3d-layout > *, .section-container { min-width: 0; }
+  .values-gyro-controls, .traits-filter-nav, .kapwa-level-tabs { flex-wrap: wrap; }
+  .gyro-tab-btn, .trait-filter-btn, .kapwa-tab-btn { min-height: 44px; }
+  .gyro-tab-btn { justify-content: center; padding: 10px 14px; font-size: .85rem; }
+  .gyro-face { padding: 20px; min-width: 0; min-height: 0; height: auto; }
+  .gyro-face-header { flex-wrap: wrap; gap: 12px; }
+  .values-cards-row, .evaluator-steps { grid-template-columns: minmax(0, 1fr); }
+  .traits-chips-cloud { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trait-chip { padding: 14px; min-width: 0; overflow-wrap: anywhere; }
+  .kapwa-canvas-container { min-width: 0; }
+  .footer-bottom { flex-wrap: wrap; gap: 12px; }
+  #presentation-deck-mode { padding: 12px; }
+  .deck-stage-viewport { min-height: 0; }
+  .deck-slide { height: calc(100% - 16px); max-height: 100%; overflow-y: auto; justify-content: safe center; padding: 20px; }
+  .deck-slide img { max-width: 100%; object-fit: contain; }
+  .deck-slide .section-index-badge { font-size: clamp(1.4rem, 6vw, 2rem) !important; }
+  .deck-footer-bar { gap: 8px; padding-top: 8px; }
+  .deck-footer-bar .btn { padding: 10px; font-size: .78rem; }
+  .deck-dots-indicator { display: none; }
+  .trait-projector-dialog, .value-focus-dialog { width: 92vw; max-height: 85vh; padding: 24px; }
+}
+@media (max-width: 360px) {
+  .nav-brand > span:not(.nav-brand-badge) { display: none; }
+  .traits-chips-cloud { grid-template-columns: minmax(0, 1fr); }
+}
