@@ -31,6 +31,7 @@
         z: p.y * sin + p.z * cos
       };
     },
+    
     rotateZ: function (p, rad) {
       const cos = Math.cos(rad);
       const sin = Math.sin(rad);
