@@ -311,7 +311,10 @@
               <h3 style="font-size:1.25rem;font-weight:800;color:var(--c-gold)">Citizenship Validator</h3>
               <p style="font-size:0.85rem;color:var(--c-cream-dim)">Select your legal premise to evaluate Philippine citizenship under Article IV:</p>
             </div>
-            <span class="hero-pill-badge">Article IV Simulator</span>
+            <div class="evaluator-header-actions">
+              <span class="hero-pill-badge">Article IV Simulator</span>
+              <button type="button" class="evaluator-enlarge" id="enlarge-citizenship">⛶ &nbsp; Enlarge</button>
+            </div>
           </div>
 
           <div class="evaluator-steps">
@@ -1152,5 +1155,6 @@
       link.addEventListener('click', function () { link.closest('details').removeAttribute('open'); });
     });
   </script>
+  <script src="./js/citizenship-focus.js"></script>
 </body>
 </html>

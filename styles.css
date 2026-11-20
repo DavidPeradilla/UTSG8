@@ -2169,3 +2169,35 @@ button {
   .nav-brand > span:not(.nav-brand-badge) { display: none; }
   .traits-chips-cloud { grid-template-columns: minmax(0, 1fr); }
 }
+
+
+/* Enlarged interactive citizenship validator */
+.evaluator-enlarge { display: inline-flex; align-items: center; margin: 0 0 1rem; padding: .8rem 1.2rem; border: 1px solid #f5b700; border-radius: 999px; background: #f5b700; color: #07140d; font-weight: 800; cursor: pointer; }
+.evaluator-enlarge:hover, .evaluator-enlarge:focus-visible { background: #ffdb65; outline: 2px solid #fff4d6; outline-offset: 3px; }
+.citizenship-focus-dialog { position: fixed; inset: 0; margin: auto; box-sizing: border-box; width: min(94vw, 1400px); max-width: 1400px; max-height: 90vh; overflow-y: auto; padding: clamp(1rem, 2.5vw, 2.5rem); background: #07140d; color: #fff4d6; border: 2px solid #f5b700; border-radius: 22px; box-shadow: 0 25px 80px #000b; }
+.citizenship-focus-dialog::backdrop { background: rgba(0,0,0,.87); }
+.citizenship-focus-bar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem; color: #f5b700; font-weight: 800; font-size: clamp(.8rem,1vw,1.1rem); letter-spacing: .08em; }
+.citizenship-focus-close { padding: .65rem 1rem; border: 1px solid #f5b700; border-radius: 999px; background: transparent; color: #fff4d6; cursor: pointer; font-size: 1rem; }
+.citizenship-focus-close:hover, .citizenship-focus-close:focus-visible { background: #f5b700; color: #07140d; }
+.citizenship-focus-dialog .evaluator-box { padding: clamp(1rem, 2.5vw, 2.5rem); }
+.citizenship-focus-dialog .evaluator-header { flex-wrap: wrap; gap: 1rem; }
+.citizenship-focus-dialog .evaluator-header h3 { font-size: clamp(1.6rem, 2.8vw, 2.8rem) !important; }
+.citizenship-focus-dialog .evaluator-header p { font-size: clamp(1rem, 1.3vw, 1.35rem) !important; line-height: 1.5; }
+.citizenship-focus-dialog .eval-btn { font-size: clamp(1rem, 1.3vw, 1.4rem); line-height: 1.4; padding: clamp(1rem, 1.5vw, 1.5rem); }
+.citizenship-focus-dialog #eval-result-title { font-size: clamp(1.3rem, 2vw, 2rem) !important; line-height: 1.25; }
+.citizenship-focus-dialog #eval-result-badge { font-size: clamp(.85rem, 1.1vw, 1.15rem) !important; }
+.citizenship-focus-dialog #eval-result-title + span { white-space: normal; }
+.citizenship-focus-dialog #eval-result-title { overflow-wrap: anywhere; }
+.citizenship-focus-dialog #eval-result-title + span, .citizenship-focus-dialog #eval-result-title { flex-shrink: 1; }
+.citizenship-focus-dialog .eval-result-card > div { min-width: 0; }
+.citizenship-focus-dialog .eval-result-card > div > div { flex-wrap: wrap; }
+.citizenship-focus-dialog #eval-result-desc { font-size: clamp(1rem, 1.45vw, 1.5rem) !important; line-height: 1.55; }
+.citizenship-focus-hint { margin: 1rem 0 0; color: #b6c3b2; font-size: .95rem; }
+@media (max-width: 700px) { .citizenship-focus-dialog .evaluator-steps { grid-template-columns: minmax(0,1fr); } .citizenship-focus-dialog { max-height: 90dvh; } }
+
+/* Keep the projector control neatly inside the validator header. */
+.evaluator-header-actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; justify-content: flex-end; }
+.evaluator-header-actions .evaluator-enlarge { margin: 0; padding: .55rem 1rem; font-size: .85rem; }
+/* Hide the open control while the validator is already enlarged. */
+.citizenship-focus-dialog .evaluator-enlarge { display: none; }
+@media (max-width: 700px) { .evaluator-header { flex-wrap: wrap; gap: 1rem; } .evaluator-header-actions { justify-content: flex-start; } }
