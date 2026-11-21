@@ -2201,3 +2201,826 @@ button {
 /* Hide the open control while the validator is already enlarged. */
 .citizenship-focus-dialog .evaluator-enlarge { display: none; }
 @media (max-width: 700px) { .evaluator-header { flex-wrap: wrap; gap: 1rem; } .evaluator-header-actions { justify-content: flex-start; } }
+
+/* ==========================================================================
+   SECTION 13 · MEET THE TEAM
+   A 3D card deck in the site's ochre/green heritage palette.
+   - Cards sit on a shared perspective plane and respond to the pointer.
+   - Click a card  -> projector-size profile overlay (#team-focus).
+   - Aeron's card  -> the photo block flips to his second picture on click.
+   All motion is disabled under prefers-reduced-motion.
+   ========================================================================== */
+
+.team-section {
+  overflow: visible;
+}
+
+.team-header {
+  max-width: 780px;
+}
+
+.team-header .section-lead em {
+  color: var(--c-gold-bright);
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------- the deck --- */
+
+.team-deck {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 26px);
+  margin-top: clamp(32px, 4vw, 64px);
+  perspective: 1600px;
+  perspective-origin: 50% 40%;
+}
+
+.team-deck-glow {
+  position: absolute;
+  inset: -12% -6% -8%;
+  background:
+    radial-gradient(60% 55% at 18% 12%, rgba(245, 158, 11, 0.16), transparent 70%),
+    radial-gradient(55% 50% at 84% 78%, rgba(31, 224, 73, 0.13), transparent 72%),
+    radial-gradient(45% 45% at 50% 110%, rgba(56, 163, 255, 0.10), transparent 75%);
+  filter: blur(28px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ------------------------------------------------------------------- card --- */
+
+.team-card {
+  --tone: var(--c-ochre-glow);
+  --tone-soft: rgba(245, 158, 11, 0.22);
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  --lift: 0px;
+  --scale: 1;
+
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 18px 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--c-border);
+  background:
+    linear-gradient(165deg, rgba(253, 240, 213, 0.075), rgba(253, 240, 213, 0.022) 46%, rgba(7, 14, 10, 0.5)),
+    radial-gradient(120% 80% at 50% -10%, var(--tone-soft), transparent 62%);
+  backdrop-filter: blur(12px) saturate(125%);
+  -webkit-backdrop-filter: blur(12px) saturate(125%);
+  box-shadow:
+    0 18px 44px -26px rgba(0, 0, 0, 0.9),
+    inset 0 1px 0 rgba(253, 240, 213, 0.10);
+  cursor: pointer;
+  overflow: hidden;
+  transform:
+    translate3d(0, var(--lift), 0)
+    scale(var(--scale))
+    rotateX(var(--tilt-x))
+    rotateY(var(--tilt-y));
+  transform-style: preserve-3d;
+  transition:
+    transform 0.45s var(--ease-out),
+    border-color 0.35s ease,
+    box-shadow 0.45s ease;
+  will-change: transform;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.team-card.tone-green { --tone: var(--c-green-glow); --tone-soft: rgba(31, 224, 73, 0.20); }
+.team-card.tone-blue  { --tone: var(--c-blue-glow);  --tone-soft: rgba(56, 163, 255, 0.20); }
+.team-card.tone-ochre { --tone: var(--c-ochre-glow); --tone-soft: rgba(245, 158, 11, 0.22); }
+
+.team-card:hover,
+.team-card:focus-visible {
+  --lift: -10px;
+  --scale: 1.018;
+  border-color: color-mix(in srgb, var(--tone) 55%, var(--c-border-strong));
+  box-shadow:
+    0 34px 60px -30px rgba(0, 0, 0, 0.95),
+    0 0 0 1px color-mix(in srgb, var(--tone) 30%, transparent),
+    0 0 40px -8px var(--tone-soft),
+    inset 0 1px 0 rgba(253, 240, 213, 0.16);
+}
+
+.team-card:focus-visible {
+  outline: 2px solid var(--c-gold-bright);
+  outline-offset: 3px;
+}
+
+/* top accent line that lights up on hover */
+.team-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--tone), transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.team-card:hover::before,
+.team-card:focus-visible::before { opacity: 1; }
+
+.team-card-glow {
+  position: absolute;
+  inset: auto -30% -55% -30%;
+  height: 70%;
+  background: radial-gradient(50% 60% at 50% 100%, var(--tone-soft), transparent 72%);
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.team-num {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: var(--c-cream-subtle);
+  z-index: 3;
+}
+.team-num span { color: var(--tone); }
+
+/* ------------------------------------------------------------------ photo --- */
+
+.team-photo-wrap {
+  position: relative;
+  margin: 6px 0 16px;
+  border-radius: calc(var(--radius-md) + 2px);
+  transform: translateZ(28px);
+}
+
+/* NOTE: no `overflow: hidden` here. An overflow clip on a preserve-3d element
+   flattens the 3D context in Chrome/Safari, which silently disables
+   backface-visibility — the second photo then renders on top of the first.
+   The rounded clip lives on each face instead. */
+.team-photo-stack {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: calc(var(--radius-md) + 2px);
+  background: var(--c-bg-alt);
+  box-shadow:
+    inset 0 0 0 1px rgba(253, 240, 213, 0.12),
+    0 10px 26px -16px rgba(0, 0, 0, 0.9);
+  transform-style: preserve-3d;
+}
+
+.team-photo {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;              /* per-face clip: keeps corners round */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: opacity 0.45s ease, transform 0.85s var(--ease-spring);
+}
+
+/* Face A is the default; face B waits edge-on, then rotates in on flip. */
+.team-photo-a { opacity: 1; transform: rotateY(0deg); z-index: 2; }
+.team-photo-b { opacity: 0; transform: rotateY(-90deg); z-index: 1; }
+
+.team-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 28%;
+  display: block;
+  transform: scale(1.02);
+  transition: transform 0.8s var(--ease-out), filter 0.5s ease;
+  filter: saturate(1.02) contrast(1.02);
+}
+
+.team-card:hover .team-photo img {
+  transform: scale(1.07);
+  filter: saturate(1.12) contrast(1.05);
+}
+
+/* the second face of a flippable card */
+.team-photo-b {
+  transform: rotateY(180deg);
+}
+
+/* flip state, toggled by js/team.js — the faces swap, the stack stays put */
+.team-card.is-flipped .team-photo-a {
+  opacity: 0;
+  transform: rotateY(90deg);
+  z-index: 1;
+}
+.team-card.is-flipped .team-photo-b {
+  opacity: 1;
+  transform: rotateY(0deg);
+  z-index: 2;
+}
+/* A card with a single photo must never animate a phantom second face. */
+.team-card:not(.is-flippable) .team-photo-a { transform: none; }
+
+.team-flip-hint {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #070e0a;
+  background: var(--tone);
+  box-shadow: 0 6px 18px -8px rgba(0, 0, 0, 0.9);
+  transition: transform 0.35s var(--ease-spring), background 0.3s ease;
+}
+.team-card:hover .team-flip-hint { transform: translateY(-2px) scale(1.04); }
+.team-card.is-flipped .team-flip-hint { background: var(--c-gold-bright); }
+
+/* ------------------------------------------------------------------- copy --- */
+
+.team-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transform: translateZ(18px);
+}
+
+.team-role {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tone);
+}
+
+.team-name {
+  font-size: clamp(1.02rem, 1.15vw, 1.22rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--c-cream);
+}
+
+.team-cred {
+  font-size: 0.82rem;
+  color: var(--c-cream-dim);
+  font-style: italic;
+}
+
+.team-bio {
+  margin-top: 4px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--c-cream-dim);
+}
+.team-bio em { color: var(--c-cream); font-style: italic; }
+
+.team-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+  list-style: none;
+}
+.team-stats li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--c-border);
+  background: rgba(7, 14, 10, 0.45);
+  font-size: 0.72rem;
+}
+.team-stats li span {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-cream-subtle);
+}
+.team-stats li strong { color: var(--c-cream); font-weight: 700; }
+
+.team-expand-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(253, 240, 213, 0.14);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-cream-subtle);
+  transition: color 0.3s ease, gap 0.3s var(--ease-out);
+}
+.team-card:hover .team-expand-cue { color: var(--tone); gap: 10px; }
+
+.team-footnote {
+  margin-top: 28px;
+  font-size: 0.82rem;
+  color: var(--c-cream-subtle);
+  max-width: 62ch;
+}
+.team-footnote span {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--c-gold);
+  margin-right: 6px;
+}
+
+/* ==========================================================================
+   TEAM PROFILE FOCUS OVERLAY (projector size)
+   ========================================================================== */
+
+#team-focus {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 1.4vh, 18px);
+  padding: clamp(14px, 2.4vh, 34px) clamp(14px, 2.4vw, 40px);
+  background: rgba(3, 8, 6, 0.9);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.32s ease, visibility 0.32s ease;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+#team-focus.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tf-stage {
+  position: relative;
+  width: min(1180px, 100%);
+  perspective: 1800px;
+}
+
+.tf-glow {
+  position: absolute;
+  inset: -8% -4%;
+  background:
+    radial-gradient(45% 60% at 22% 20%, rgba(245, 158, 11, 0.22), transparent 70%),
+    radial-gradient(45% 60% at 80% 80%, rgba(31, 224, 73, 0.16), transparent 72%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.tf-card {
+  position: relative;
+  border-radius: clamp(18px, 2vw, 28px);
+  border: 1px solid var(--c-border-strong);
+  background:
+    linear-gradient(160deg, rgba(253, 240, 213, 0.10), rgba(253, 240, 213, 0.03) 40%, rgba(7, 14, 10, 0.72)),
+    radial-gradient(120% 90% at 12% 0%, rgba(245, 158, 11, 0.16), transparent 58%);
+  box-shadow: 0 60px 120px -50px rgba(0, 0, 0, 1), inset 0 1px 0 rgba(253, 240, 213, 0.14);
+  padding: clamp(18px, 2.2vw, 34px);
+  transform: translateY(22px) rotateX(6deg) scale(0.97);
+  opacity: 0;
+  transition: transform 0.5s var(--ease-spring), opacity 0.4s ease;
+  transform-style: preserve-3d;
+  overflow: hidden;
+}
+#team-focus.is-open .tf-card {
+  transform: translateY(0) rotateX(0deg) scale(1);
+  opacity: 1;
+}
+
+.tf-close {
+  position: absolute;
+  top: clamp(10px, 1.2vw, 18px);
+  right: clamp(10px, 1.2vw, 18px);
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--c-border);
+  background: rgba(7, 14, 10, 0.72);
+  color: var(--c-cream);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+.tf-close:hover {
+  background: var(--c-gold);
+  color: #070e0a;
+  transform: translateY(-1px);
+}
+
+.tf-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: clamp(18px, 2.6vw, 44px);
+  align-items: stretch;
+}
+
+/* ---- media ---- */
+
+.tf-media {
+  position: relative;
+  border-radius: clamp(14px, 1.6vw, 22px);
+  overflow: hidden;
+  background: var(--c-bg-alt);
+  box-shadow: inset 0 0 0 1px rgba(253, 240, 213, 0.14), 0 30px 60px -40px #000;
+  aspect-ratio: 4 / 5;
+  max-height: min(74vh, 760px);
+  transform: translateZ(30px);
+}
+
+.tf-photos { position: absolute; inset: 0; }
+
+.tf-photo {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.06);
+  transition: opacity 0.55s ease, transform 0.9s var(--ease-out);
+}
+.tf-photo.is-active { opacity: 1; transform: scale(1); }
+
+.tf-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 26%;
+  display: block;
+}
+
+.tf-counter {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 3;
+  padding: 6px 11px;
+  border-radius: var(--radius-pill);
+  background: rgba(7, 14, 10, 0.78);
+  border: 1px solid var(--c-border);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--c-gold-bright);
+}
+.tf-counter[hidden] { display: none; }
+
+/* ---- copy ---- */
+
+.tf-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(6px, 1vh, 12px);
+  transform: translateZ(14px);
+  min-width: 0;
+}
+
+.tf-role {
+  font-family: var(--font-mono);
+  font-size: clamp(0.68rem, 0.85vw, 0.82rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+}
+
+.tf-name {
+  font-size: clamp(1.6rem, 3.4vw, 3.15rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: var(--c-cream);
+}
+
+.tf-cred {
+  font-size: clamp(0.85rem, 1.15vw, 1.05rem);
+  font-style: italic;
+  color: var(--c-cream-dim);
+}
+
+.tf-bio {
+  font-size: clamp(0.95rem, 1.35vw, 1.22rem);
+  line-height: 1.55;
+  color: var(--c-cream-dim);
+  max-width: 52ch;
+}
+.tf-bio em { color: var(--c-cream); font-style: italic; }
+
+.tf-quote {
+  margin: clamp(4px, 0.8vh, 10px) 0 0;
+  padding: 10px 0 10px 16px;
+  border-left: 3px solid var(--c-gold);
+  font-size: clamp(0.9rem, 1.25vw, 1.12rem);
+  line-height: 1.5;
+  font-style: italic;
+  color: var(--c-cream);
+}
+
+.tf-fact {
+  font-size: clamp(0.82rem, 1vw, 0.95rem);
+  color: var(--c-cream-subtle);
+}
+.tf-fact span {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-green-glow);
+  margin-right: 8px;
+}
+.tf-fact em { font-style: italic; color: var(--c-cream-dim); }
+
+.tf-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.tf-stats li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 7px 13px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--c-border);
+  background: rgba(7, 14, 10, 0.5);
+  font-size: clamp(0.72rem, 0.85vw, 0.82rem);
+}
+.tf-stats li span {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--c-cream-subtle);
+}
+.tf-stats li strong { color: var(--c-cream); }
+
+.tf-hint {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-cream-subtle);
+  text-align: center;
+}
+
+/* ---- responsive ---- */
+
+@media (max-width: 1080px) {
+  .team-deck { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 860px) {
+  .tf-layout { grid-template-columns: minmax(0, 1fr); }
+  .tf-media { aspect-ratio: 16 / 10; max-height: 34vh; }
+  .tf-media .tf-photo img { object-position: 50% 22%; }
+  .tf-photo { transform: scale(1); }
+  .tf-card { padding-bottom: 22px; }
+}
+
+@media (max-width: 620px) {
+  .team-deck { grid-template-columns: minmax(0, 1fr); }
+  .team-card { padding: 16px 16px 18px; }
+}
+
+/* Keyboard/screen-reader users get the same reach without hover. */
+@media (hover: none) {
+  .team-card:hover { --lift: 0px; --scale: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-card,
+  .team-photo img,
+  .team-photo-stack,
+  .tf-card,
+  .tf-photo {
+    transition: none !important;
+    transform: none !important;
+  }
+  .team-card:hover,
+  .team-card:focus-visible { --lift: 0px; --scale: 1; }
+  #team-focus .tf-card { transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Team card helpers: the full-card flip button and the screen-reader-only label
+   -------------------------------------------------------------------------- */
+
+.team-flip-btn {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: inherit;
+}
+.team-flip-btn:focus-visible {
+  outline: 2px solid var(--c-gold-bright);
+  outline-offset: -3px;
+  border-radius: calc(var(--radius-md) + 2px);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Lock page scroll behind the projector overlay without a layout jump. */
+body.team-focus-open {
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Section 13 refinements
+   - The inherited 84px index badge is too heavy for a 4-card grid, so the
+     Team header uses a compact badge.
+   - Cards stretch to equal height; the expand cue is pinned to the bottom so
+     all four line up regardless of bio length.
+   -------------------------------------------------------------------------- */
+
+.team-header .section-index-badge {
+  font-size: clamp(30px, 3.4vw, 46px);
+  color: var(--c-gold);
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.35rem;
+}
+
+.team-header .section-title {
+  max-width: none;
+}
+
+.team-header .section-tagline {
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+/* Equal-height cards: the cue sits at the bottom edge. */
+.team-card .team-body {
+  flex: 1 1 auto;
+}
+
+.team-expand-cue {
+  margin-top: auto;
+}
+
+/* Keep the flip pill clear of the cue on the flippable card. */
+.team-card.is-flippable .team-photo-wrap {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 620px) {
+  .team-header .section-index-badge { font-size: 30px; }
+}
+
+/* --------------------------------------------------------------------------
+   Deck slide 14 — Meet the Team
+   Sits inside the existing fullscreen deck, so it must not assume the page's
+   section grid. Four portraits in a row, caption underneath.
+   -------------------------------------------------------------------------- */
+
+.deck-slide-team {
+  text-align: left;
+}
+
+.deck-team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(10px, 1.4vw, 22px);
+  margin-top: 0.4rem;
+}
+
+.deck-team-member {
+  margin: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(253, 240, 213, 0.04);
+  border: 1px solid var(--c-border);
+  box-shadow: 0 22px 48px -30px #000;
+}
+
+.deck-team-member img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: 50% 24%;
+}
+
+.deck-team-member figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px 12px;
+}
+
+.deck-team-member strong {
+  font-size: clamp(0.78rem, 1vw, 0.95rem);
+  font-weight: 800;
+  color: var(--c-cream);
+  line-height: 1.2;
+}
+
+.deck-team-member span {
+  font-family: var(--font-mono);
+  font-size: clamp(0.6rem, 0.72vw, 0.7rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+}
+
+@media (max-width: 900px) {
+  .deck-team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* --------------------------------------------------------------------------
+   Deck: portrait "plate" images (the tall 4:5 illustration cards).
+   Held at a readable height, centred, and capped so the caption never clips.
+   -------------------------------------------------------------------------- */
+
+.deck-figure-plate {
+  display: block;
+  margin: clamp(10px, 1.6vh, 22px) auto 0;
+  max-height: min(54vh, 520px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 30px 60px -40px #000, 0 0 0 1px var(--c-border);
+}
+
+/* --------------------------------------------------------------------------
+   Team section background music.
+   The iframe must be in the document for the YouTube API to work, but it must
+   not be visible or clickable. It is parked off-canvas at 1x1 px rather than
+   display:none — a display:none iframe is not rendered, and some browsers then
+   refuse to play it.
+   -------------------------------------------------------------------------- */
+
+.team-music-host {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.team-music-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 18px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--c-border);
+  background: rgba(7, 14, 10, 0.45);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-cream-subtle);
+}
+
+.team-music-badge span.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-green-glow);
+  box-shadow: 0 0 8px var(--c-green-glow);
+}
+
+.team-music-badge.is-muted span.dot {
+  background: var(--c-cream-subtle);
+  box-shadow: none;
+}
