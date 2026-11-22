@@ -2338,7 +2338,8 @@ button {
   top: 14px;
   right: 18px;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.74rem;
+  font-weight: 700;
   letter-spacing: 0.12em;
   color: var(--c-cream-subtle);
   z-index: 3;
@@ -2867,11 +2868,23 @@ body.team-focus-open {
    -------------------------------------------------------------------------- */
 
 .team-header .section-index-badge {
-  font-size: clamp(30px, 3.4vw, 46px);
-  color: var(--c-gold);
-  font-family: var(--font-mono);
-  letter-spacing: -0.02em;
-  margin-bottom: 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(64px, 8vw, 96px);
+  font-weight: 900;
+  line-height: 0.9;
+  color: var(--c-cream);
+  font-family: var(--font-main);
+  letter-spacing: -0.045em;
+  margin-bottom: 0.9rem;
+}
+
+.team-header .section-index-badge span {
+  color: var(--c-gold-bright);
+  font-size: 0.72em;
+  line-height: 1;
+  transform: translateY(0.22em);
 }
 
 .team-header .section-title {
@@ -2898,7 +2911,7 @@ body.team-focus-open {
 }
 
 @media (max-width: 620px) {
-  .team-header .section-index-badge { font-size: 30px; }
+  .team-header .section-index-badge { font-size: 64px; }
 }
 
 /* --------------------------------------------------------------------------
