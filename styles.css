@@ -3037,3 +3037,12 @@ body.team-focus-open {
   background: var(--c-cream-subtle);
   box-shadow: none;
 }
+
+/* Previous / next navigation inside the enlarged card */
+.cf-slide-nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: clamp(1.5rem, 3vw, 2.5rem); padding-top: 1.25rem; border-top: 1px solid rgba(245, 183, 0, .25); }
+.cf-slide-nav[hidden] { display: none; }
+.cf-slide-nav button { min-height: 44px; padding: .7rem 1.2rem; border: 1px solid #b99550; border-radius: 999px; background: transparent; color: #fff0d5; font-size: 1rem; font-weight: 700; cursor: pointer; }
+.cf-slide-nav button:hover:not(:disabled), .cf-slide-nav button:focus-visible { background: #f5b700; border-color: #f5b700; color: #07140d; }
+.cf-slide-nav button:disabled { opacity: .3; cursor: not-allowed; }
+.cf-counter { color: #d1bd8f; font-size: .95rem; letter-spacing: .08em; white-space: nowrap; }
+@media (max-width: 600px) { .cf-slide-nav { gap: .5rem; } .cf-slide-nav button { padding: .6rem .8rem; font-size: .9rem; } }
