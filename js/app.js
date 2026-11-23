@@ -209,81 +209,74 @@
     const detailName = document.getElementById('trait-detail-name');
     const detailType = document.getElementById('trait-detail-type');
     const detailDesc = document.getElementById('trait-detail-desc');
-    
-
     if (!cloud) return;
-
-    // Projector-friendly trait dialog
-const traitDialog = document.createElement('dialog');
-traitDialog.className = 'trait-projector-dialog';
-traitDialog.setAttribute('aria-labelledby', 'projector-trait-name');
-traitDialog.setAttribute('aria-describedby', 'projector-trait-desc');
-
-traitDialog.innerHTML = `
-  <button type="button" class="trait-projector-close">
-    ✕ Close
-  </button>
-  <span class="trait-projector-label" id="projector-trait-type"></span>
-  <h2 id="projector-trait-name"></h2>
-  <p id="projector-trait-desc"></p>
-  <small>Press Esc to close</small>
-`;
-
-document.body.appendChild(traitDialog);
-
-traitDialog.querySelector('.trait-projector-close')
-  .addEventListener('click', () => traitDialog.close());
-
-traitDialog.addEventListener('click', (event) => {
-  if (event.target === traitDialog) traitDialog.close();
-});
-
+    const dialog = document.createElement('dialog');
+    dialog.className = 'trait-projector-dialog';
+    dialog.setAttribute('aria-labelledby', 'projector-trait-name');
+    dialog.setAttribute('aria-describedby', 'projector-trait-desc');
+    dialog.innerHTML = `
+      <button type="button" class="trait-projector-close">✕ Close</button>
+      <span class="trait-projector-label" id="projector-trait-type"></span>
+      <h2 id="projector-trait-name"></h2><p id="projector-trait-desc"></p>
+      <nav class="value-slide-nav" aria-label="Trait navigation">
+        <button type="button" class="slide-prev" aria-label="Previous trait">← Previous</button>
+        <span class="slide-counter" aria-live="polite"></span>
+        <button type="button" class="slide-next" aria-label="Next trait">Next →</button>
+      </nav><small>Use arrow keys to navigate · Press Esc to close</small>`;
+    document.body.appendChild(dialog);
+    const prev = dialog.querySelector('.slide-prev'), next = dialog.querySelector('.slide-next');
+    let filtered = [], current = 0;
+    function showTrait(index) {
+      if (index < 0 || index >= filtered.length) return;
+      current = index;
+      const trait = filtered[current];
+      const chips = Array.from(cloud.querySelectorAll('.trait-chip'));
+      chips.forEach((chip, i) => chip.classList.toggle('active', i === current));
+      const type = trait.type === 'positive' ? 'Adaptive Strength' : 'Cultural Challenge / Coping';
+      if (detailBox && detailName && detailType && detailDesc) {
+        detailBox.style.display = 'flex'; detailName.textContent = trait.name;
+        detailType.textContent = type;
+        detailType.style.color = trait.type === 'positive' ? 'var(--c-green-glow)' : 'var(--c-ochre-glow)';
+        detailDesc.textContent = trait.desc;
+      }
+      dialog.querySelector('#projector-trait-name').textContent = trait.name;
+      dialog.querySelector('#projector-trait-desc').textContent = trait.desc;
+      dialog.querySelector('#projector-trait-type').textContent = type;
+      dialog.querySelector('.slide-counter').textContent = `${current + 1} / ${filtered.length}`;
+      prev.disabled = current === 0; next.disabled = current === filtered.length - 1;
+      if (document.activeElement === prev && prev.disabled) next.focus();
+      if (document.activeElement === next && next.disabled) prev.focus();
+    }
+    prev.addEventListener('click', () => showTrait(current - 1));
+    next.addEventListener('click', () => showTrait(current + 1));
+    dialog.querySelector('.trait-projector-close').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', () => { const chip = cloud.querySelectorAll('.trait-chip')[current]; if (chip) chip.focus({preventScroll:true}); });
+    dialog.addEventListener('keydown', event => {
+      if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+        event.preventDefault(); event.stopPropagation(); showTrait(current + (event.key === 'ArrowRight' ? 1 : -1));
+      }
+    });
     function renderTraits(filter = 'all') {
       cloud.innerHTML = '';
-      const filtered = traitsData.filter((t) => (filter === 'all' ? true : t.type === filter));
-
-      filtered.forEach((trait) => {
+      filtered = traitsData.filter(t => filter === 'all' || t.type === filter);
+      filtered.forEach((trait, index) => {
         const chip = document.createElement('div');
         chip.className = `trait-chip ${trait.type === 'challenge' ? 'double-edged' : ''}`;
-        chip.innerHTML = `
-          <div class="trait-name">${trait.name}</div>
-          <div class="trait-meta">${trait.meta}</div>
-        `;
-
-        chip.addEventListener('click', () => {
-          document.querySelectorAll('.trait-chip').forEach((c) => c.classList.remove('active'));
-          chip.classList.add('active');
-
-          if (detailBox && detailName && detailType && detailDesc) {
-            detailBox.style.display = 'flex';
-            detailName.textContent = trait.name;
-            detailType.textContent = trait.type === 'positive' ? 'Adaptive Strength' : 'Cultural Challenge / Coping';
-            detailType.style.color = trait.type === 'positive' ? 'var(--c-green-glow)' : 'var(--c-ochre-glow)';
-            detailDesc.textContent = trait.desc;
-            traitDialog.querySelector('#projector-trait-name').textContent = trait.name;
-traitDialog.querySelector('#projector-trait-desc').textContent = trait.desc;
-traitDialog.querySelector('#projector-trait-type').textContent =
-  trait.type === 'positive' ? 'Adaptive Strength' : 'Cultural Challenge / Coping';
-
-traitDialog.showModal();
-            if (window.AppAudio) window.AppAudio.playClick();
-          }
-        });
-
+        chip.setAttribute('role', 'button'); chip.tabIndex = 0; chip.setAttribute('aria-haspopup', 'dialog');
+        const name = document.createElement('div'); name.className = 'trait-name'; name.textContent = trait.name;
+        const meta = document.createElement('div'); meta.className = 'trait-meta'; meta.textContent = trait.meta;
+        chip.append(name, meta);
+        function open() { showTrait(index); dialog.showModal(); if (window.AppAudio) window.AppAudio.playClick(); }
+        chip.addEventListener('click', open);
+        chip.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
         cloud.appendChild(chip);
       });
     }
-
-    filterBtns.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.getAttribute('data-filter');
-        renderTraits(filter);
-        if (window.AppAudio) window.AppAudio.playClick();
-      });
-    });
-
+    filterBtns.forEach(btn => btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active');
+      renderTraits(btn.getAttribute('data-filter')); if (window.AppAudio) window.AppAudio.playClick();
+    }));
     renderTraits('all');
   }
 

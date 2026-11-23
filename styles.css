@@ -3052,3 +3052,12 @@ body.team-focus-open {
 .cf-slide-nav button:disabled { opacity: .3; cursor: not-allowed; }
 .cf-counter { color: #d1bd8f; font-size: .95rem; letter-spacing: .08em; white-space: nowrap; }
 @media (max-width: 600px) { .cf-slide-nav { gap: .5rem; } .cf-slide-nav button { padding: .6rem .8rem; font-size: .9rem; } }
+
+/* Slide controls inside the enlarged Filipino traits and surface values */
+.value-slide-nav { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin:1.75rem 0 1.25rem; padding-top:1.25rem; border-top:1px solid rgba(245,183,0,.3); }
+.value-slide-nav button { min-height:44px; padding:.7rem 1.2rem; border:1px solid #b99550; border-radius:999px; background:transparent; color:#fff0d5; font-size:1rem; font-weight:700; cursor:pointer; }
+.value-slide-nav button:hover:not(:disabled), .value-slide-nav button:focus-visible { background:#f5b700; border-color:#f5b700; color:#07140d; }
+.value-slide-nav button:disabled { opacity:.3; cursor:not-allowed; }
+.value-slide-nav .slide-counter { color:#d1bd8f; font-size:.95rem; letter-spacing:.08em; white-space:nowrap; }
+.trait-chip:focus-visible { outline:3px solid #f5b700; outline-offset:3px; }
+@media (max-width:600px) { .value-slide-nav { gap:.5rem; } .value-slide-nav button { padding:.6rem .8rem; font-size:.9rem; } }
