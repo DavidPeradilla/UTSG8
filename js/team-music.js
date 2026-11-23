@@ -1,108 +1,228 @@
+/* ==========================================================================
+   SITE BACKGROUND MUSIC
+   The main playlist plays on every section except The Team.
+   The Team switches to assets/team-music.mp3.
+   ==========================================================================
+
+   Volume is on a 0-100 scale. Both tracks use volume: 45.
+   ========================================================================= */
+
+var MUSIC_CONFIG = {
+  siteTrack: './assets/site-music.mp3',
+  teamTrack: './assets/team-music.mp3',
+  teamSectionId: 'sec-team',
+  volume: 45,
+  fadeSeconds: 1.2
+};
+
 (function () {
   'use strict';
 
-  const START_AT = 20;
-  const STOP_AT = 60;
-  const VOLUME = 0.28;
-  const TEAM_SELECTOR = '#sec-team';
-  const MUSIC_SRC = './assets/team-music.mp3';
+  var CFG = MUSIC_CONFIG;
+  var LOG = '[music]';
+  var TARGET_VOLUME = Math.max(0, Math.min(100, CFG.volume)) / 100;
 
-  const section = document.querySelector(TEAM_SELECTOR);
-  if (!section) return;
+  var siteAudio = null;
+  var teamAudio = null;
+  var teamVisible = false;
+  var userInteracted = false;
+  var musicMuted = false;
+  var siteFadeTimer = 0;
+  var teamFadeTimer = 0;
+  var reducedMotion = window.matchMedia
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    : false;
 
-  const audio = new Audio(MUSIC_SRC);
-  audio.preload = 'auto';
-  audio.volume = VOLUME;
+  function createTrack(src) {
+    var audio = new Audio(src);
+    audio.loop = true;
+    audio.preload = 'auto';
+    audio.volume = 0;
+    audio.addEventListener('error', function () {
+      console.warn(LOG, 'could not load', src);
+    });
+    return audio;
+  }
 
-  let sectionVisible = false;
-  let userInteracted = false;
-  let wantsPlayback = false;
-  let userMuted = false;
-
-  function readSiteMute() {
+  function readMusicMuted() {
     try {
-      return window.localStorage.getItem('uts_muted') === '1';
-    } catch (error) {
-      console.warn('[team-music] Could not read the saved sound preference.', error);
+      return window.localStorage.getItem('uts_music_muted') === '1';
+    } catch (e) {
       return false;
     }
   }
 
-  function play() {
-    if (!sectionVisible || !userInteracted || userMuted) return;
-    wantsPlayback = true;
-    if (audio.readyState >= 1 && (audio.currentTime < START_AT || audio.currentTime >= STOP_AT)) {
-      audio.currentTime = START_AT;
+  function fadeAudio(audio, target, seconds, timerName) {
+    if (!audio) return;
+
+    window.clearInterval(timerName === 'site' ? siteFadeTimer : teamFadeTimer);
+
+    if (reducedMotion || !seconds) {
+      audio.volume = target;
+      return;
     }
 
-    audio.play().catch(function (error) {
-      wantsPlayback = false;
-      console.warn('[team-music] Playback failed. Check that assets/team-music.mp3 exists and click the sound button to try again.', error);
-    });
+    var steps = Math.max(1, Math.round(seconds * 20));
+    var step = 0;
+    var start = audio.volume;
+    var delta = (target - start) / steps;
+    var timer = window.setInterval(function () {
+      step++;
+      var nextVolume = step >= steps ? target : start + delta * step;
+      audio.volume = Math.max(0, Math.min(1, nextVolume));
+
+      if (step >= steps) {
+        window.clearInterval(timer);
+        if (timerName === 'site') siteFadeTimer = 0;
+        else teamFadeTimer = 0;
+      }
+    }, 50);
+
+    if (timerName === 'site') siteFadeTimer = timer;
+    else teamFadeTimer = timer;
   }
 
-  function pause() {
-    wantsPlayback = false;
-    audio.pause();
-  }
+  function startTrack(audio, timerName) {
+    if (!audio || musicMuted || !userInteracted) return;
 
-  audio.addEventListener('loadedmetadata', function () {
-    if (wantsPlayback && audio.currentTime < START_AT) {
-      audio.currentTime = START_AT;
-      audio.play().catch(function (error) {
-        wantsPlayback = false;
-        console.warn('[team-music] Playback failed.', error);
+    var playPromise = audio.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(function () {
+        console.info(LOG, 'waiting for another user interaction to unlock audio');
       });
     }
-  });
-
-  audio.addEventListener('timeupdate', function () {
-    if (audio.currentTime >= STOP_AT) {
-      audio.currentTime = START_AT;
-    }
-  });
-
-  audio.addEventListener('error', function () {
-    console.warn('[team-music] Could not load ' + MUSIC_SRC + '.', audio.error);
-  });
-
-  function onFirstInteraction() {
-    userInteracted = true;
-    window.removeEventListener('pointerdown', onFirstInteraction, true);
-    window.removeEventListener('keydown', onFirstInteraction, true);
-    if (sectionVisible) play();
+    fadeAudio(audio, TARGET_VOLUME, CFG.fadeSeconds, timerName);
   }
 
-  userMuted = readSiteMute();
-  audio.muted = userMuted;
+  function stopTrack(audio, timerName) {
+    if (!audio) return;
+    fadeAudio(audio, 0, CFG.fadeSeconds, timerName);
+    window.setTimeout(function () {
+      if (audio.volume <= 0.01) audio.pause();
+    }, Math.max(250, CFG.fadeSeconds * 1100));
+  }
 
-  window.addEventListener('pointerdown', onFirstInteraction, true);
-  window.addEventListener('keydown', onFirstInteraction, true);
+  function updateTracks() {
+    if (teamVisible) {
+      stopTrack(siteAudio, 'site');
+      startTrack(teamAudio, 'team');
+      console.info(LOG, 'playing team-music.mp3 at volume', CFG.volume);
+    } else {
+      stopTrack(teamAudio, 'team');
+      startTrack(siteAudio, 'site');
+      console.info(LOG, 'playing site-music.mp3 at volume', CFG.volume);
+    }
+  }
 
-  const soundButton = document.getElementById('sound-toggle-btn');
-  if (soundButton) {
-    soundButton.addEventListener('click', function () {
-      userMuted = readSiteMute();
-      audio.muted = userMuted;
-      if (userMuted) pause();
-      else if (sectionVisible) {
+  function watchTeamSection() {
+    var section = document.getElementById(CFG.teamSectionId);
+    if (!section) {
+      console.info(LOG, 'team section not found; site music will play everywhere');
+      teamVisible = false;
+      updateTracks();
+      return;
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      teamVisible = false;
+      updateTracks();
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      var visible = entries.some ? entries.some(function (entry) {
+        return entry.isIntersecting;
+      }) : entries[0].isIntersecting;
+
+      if (visible !== teamVisible) {
+        teamVisible = visible;
+        updateTracks();
+      }
+    }, { threshold: [0, 0.25, 0.5] });
+
+    observer.observe(section);
+  }
+
+  function onFirstInteraction() {
+    if (userInteracted) return;
+    userInteracted = true;
+    console.info(LOG, 'first interaction - audio unlocked');
+    updateTracks();
+  }
+
+  function watchMusicToggle() {
+    var btn = document.getElementById('music-toggle-btn');
+    if (!btn) return;
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      musicMuted = !musicMuted;
+      try {
+        window.localStorage.setItem('uts_music_muted', musicMuted ? '1' : '0');
+      } catch (err) {}
+
+      btn.classList.toggle('is-muted', musicMuted);
+      btn.setAttribute('aria-pressed', musicMuted ? 'true' : 'false');
+      btn.title = musicMuted ? 'Turn background music on' : 'Turn background music off';
+
+      if (musicMuted) {
+        stopTrack(siteAudio, 'site');
+        stopTrack(teamAudio, 'team');
+      } else {
         userInteracted = true;
-        play();
+        updateTracks();
       }
     });
   }
 
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        sectionVisible = entry.isIntersecting && entry.intersectionRatio >= 0.35;
-        if (sectionVisible) {
-          if (userInteracted) play();
-        } else {
-          pause();
-        }
-      });
-    }, { threshold: [0, 0.35, 0.6] });
-    observer.observe(section);
+  window.SiteMusic = {
+    play: function () {
+      userInteracted = true;
+      musicMuted = false;
+      updateTracks();
+    },
+    pause: function () {
+      stopTrack(siteAudio, 'site');
+      stopTrack(teamAudio, 'team');
+    },
+    status: function () {
+      var status = {
+        volume: CFG.volume,
+        teamVisible: teamVisible,
+        userInteracted: userInteracted,
+        musicMuted: musicMuted,
+        activeTrack: teamVisible ? 'team-music.mp3' : 'site-music.mp3'
+      };
+      if (siteAudio) status.sitePaused = siteAudio.paused;
+      if (teamAudio) status.teamPaused = teamAudio.paused;
+      console.table ? console.table(status) : console.log(status);
+      return status;
+    }
+  };
+
+  function init() {
+    siteAudio = createTrack(CFG.siteTrack);
+    teamAudio = createTrack(CFG.teamTrack);
+    musicMuted = readMusicMuted();
+
+    var btn = document.getElementById('music-toggle-btn');
+    if (btn) btn.classList.toggle('is-muted', musicMuted);
+
+    watchTeamSection();
+    watchMusicToggle();
+
+    ['pointerdown', 'keydown', 'touchstart'].forEach(function (evt) {
+      window.addEventListener(evt, onFirstInteraction, { once: true, passive: true });
+    });
+
+    console.info(LOG, 'loaded. site volume =', CFG.volume,
+      '| team volume =', CFG.volume,
+      '| click once anywhere to start audio');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
 })();
