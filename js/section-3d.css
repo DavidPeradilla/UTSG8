@@ -1,0 +1,208 @@
+/* ==========================================================================
+   SECTION 3D — supporting styles.
+   Append this whole file to styles.css, or keep it as its own <link> after
+   styles.css. Nothing here runs unless <html class="js-3d"> is set by JS, so
+   the page is completely unaffected when JavaScript is unavailable.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- 1. depth
+   Perspective lives on the SECTION, never a transform. The section keeps its
+   overflow:hidden and its scroll-margin-top exactly as they are; no transform
+   is ever applied to it, so position:fixed descendants (dialogs, the deck,
+   the lightbox, the team overlay) stay pinned to the viewport.
+   -------------------------------------------------------------------------- */
+
+.js-3d .module-section,
+.js-3d .hero-section {
+  perspective: 1400px;
+  perspective-origin: 50% 50%;
+}
+
+/* The containers are the only things we actually animate. Creating a stacking
+   context here keeps the 3D local to each section. */
+.js-3d .module-section > .section-container,
+.js-3d .hero-section > .hero-overlay-content {
+  transform-style: preserve-3d;
+}
+
+/* A section that is mid-animation must not hand out a horizontal scrollbar
+   when something is pushed sideways on Z. `clip` is the modern, cheap
+   alternative to `hidden` for this and does not create a scroll container. */
+.js-3d .module-section,
+.js-3d .hero-section {
+  overflow: clip;
+  overflow-clip-margin: 0;
+}
+
+/* Browsers without overflow:clip keep the original overflow:hidden — this is
+   only a 1-line enhancement, the fallback above still applies. */
+
+/* -------------------------------------------------- 2. pre-animation state
+   Anything sitting off its resting position waits here. Scoped to .js-3d so a
+   no-JS visitor never sees a blank section.
+   -------------------------------------------------------------------------- */
+
+.js-3d .section-3d-pending,
+.js-3d [data-anim-state="idle"] > .section-container {
+  /* deliberately empty: kept for readability of the state machine */
+}
+
+/* The engine holds the start frame itself via the Web Animations API with
+   fill:'both', so we do not need to pre-hide anything in CSS. That is what
+   prevents the load flash: a section that is already in view never gets a
+   hidden start frame applied to it at all. */
+
+/* ------------------------------------------------------- 3. nav highlight
+   This was in the stylesheet but nothing ever set the class. Now the engine
+   does, and it gets a small 3D underline.
+   -------------------------------------------------------------------------- */
+
+.js-3d .nav-link {
+  position: relative;
+  /* An inline element gives its absolutely-positioned ::after a degenerate
+     containing block (width:100% resolved to 2px in testing). inline-block
+     gives the underline a real box to span. */
+  display: inline-block;
+  transform-style: preserve-3d;
+}
+
+/* styles.css already gives .nav-link a gold underline that grows from 0 to
+   100% on hover and on .active. We keep that markup and its box model, and
+   add the 3D part on top: the bar tips out of the page and settles, picking
+   up a glow once it lands. Overriding width/transition here rather than
+   inventing a second pseudo-element avoids two bars fighting each other. */
+.js-3d .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  border-radius: 2px;
+  background: var(--c-gold);
+  transform: scaleX(0) rotateX(45deg);
+  transform-origin: left center;
+  opacity: 0;
+  transition:
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 260ms ease-out,
+    box-shadow 420ms ease-out;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.js-3d .nav-link:hover::after,
+.js-3d .nav-link.active::after {
+  transform: scaleX(1) rotateX(0deg);
+  opacity: 1;
+}
+
+.js-3d .nav-link.active::after {
+  box-shadow: 0 0 12px -2px var(--c-gold);
+}
+
+.js-3d .nav-link.active {
+  color: var(--c-gold-bright, var(--c-gold));
+}
+
+/* The mobile menu gets the same treatment, flat. */
+.js-3d .mobile-nav-panel a.active {
+  color: var(--c-gold);
+}
+
+/* Theme-tinted pills: the highlight picks up each section's own glow so the
+   nav reads in the same language as the section you are standing in. */
+.js-3d .nav-link.active[href="#sec-political-self"]::after,
+.js-3d .nav-link.active[href="#sec-who-is-filipino"]::after,
+.js-3d .nav-link.active[href="#sec-political-self-concept"]::after,
+.js-3d .nav-link.active[href="#sec-democracy"]::after {
+  background: var(--c-blue-glow);
+  box-shadow: 0 0 12px -2px var(--c-blue-glow);
+}
+
+.js-3d .nav-link.active[href="#sec-objectives"]::after,
+.js-3d .nav-link.active[href="#sec-team"]::after,
+.js-3d .nav-link.active[href="#sec-what-is-political"]::after,
+.js-3d .nav-link.active[href="#sec-political-skills"]::after {
+  background: var(--c-ochre-glow);
+  box-shadow: 0 0 12px -2px var(--c-ochre-glow);
+}
+
+.js-3d .nav-link.active[href="#sec-filipino-traits"]::after,
+.js-3d .nav-link.active[href="#sec-surface-values"]::after,
+.js-3d .nav-link.active[href="#sec-kapwa-levels"]::after,
+.js-3d .nav-link.active[href="#sec-markers"]::after,
+.js-3d .nav-link.active[href="#sec-community"]::after,
+.js-3d .nav-link.active[href="#sec-quiz"]::after {
+  background: var(--c-green-glow);
+  box-shadow: 0 0 12px -2px var(--c-green-glow);
+}
+
+/* ------------------------------------------- 4. elements we must never move
+   A belt-and-braces guard. The engine already refuses to write to these, but
+   if a future edit adds one to an item list, this stops it dead.
+   -------------------------------------------------------------------------- */
+
+.js-3d .section-ghost-watermark,
+.js-3d .tilt-card,
+.js-3d .marker-card-3d,
+.js-3d .team-card {
+  /* no `translate` / `rotate` / `scale` from us — ever. */
+}
+
+/* The card engines own `transform` on these elements and their parents write
+   inline styles. Isolate them so a neighbouring 3D animation cannot smear
+   their perspective. */
+.js-3d .card-grid,
+.js-3d .civic-grid,
+.js-3d .values-cards-row,
+.js-3d .marker-grid,
+.js-3d .team-grid {
+  transform-style: flat;
+}
+
+/* -------------------------------------------------------------- 5. reduced
+   No 3D at all. A 200ms fade, and the nav underline loses its travel.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .js-3d .nav-link::after {
+    transition: opacity 200ms ease-out;
+    transform: none;
+  }
+
+  .js-3d .nav-link.active::after {
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------- 6. mobile
+   Half the depth, half the rotation, a shorter stagger — done in JS via
+   Z_SCALE / ROT_SCALE / STAGGER. The one thing CSS must handle is the
+   perspective, which costs more on a small GPU.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .js-3d .module-section,
+  .js-3d .hero-section {
+    perspective: 900px;
+  }
+
+  .js-3d .nav-link::after {
+    display: none;   /* the desktop nav is hidden at this width anyway */
+  }
+}
+
+/* ------------------------------------------------------------- 7. print/safe
+   Never animate for print, never leave a hidden section behind.
+   -------------------------------------------------------------------------- */
+
+@media print {
+  .js-3d .module-section > .section-container,
+  .js-3d .hero-section > .hero-overlay-content {
+    opacity: 1 !important;
+    transform: none !important;
+    translate: none !important;
+    rotate: none !important;
+    scale: none !important;
+  }
+}

@@ -6,6 +6,7 @@
   <title>Understanding the Self: The Political Self · Group 8</title>
   <meta name="description" content="An interactive 3D digital exploration of the Political Self, Sikolohiyang Pilipino, the 1987 Philippine Constitution, and Filipino Cultural Values by Group 8.">
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./js/section-3d.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23f5b700'/><circle cx='50' cy='50' r='20' fill='%23070e0a'/></svg>">
 </head>
 <body>
@@ -81,7 +82,7 @@
     <!-- ======================================================================
          HERO SECTION: 3D Interactive Celestial Sun & Kinetic Typography
          ====================================================================== -->
-    <section class="hero-section" id="sec-hero">
+    <section class="hero-section" id="sec-hero" data-3d-anim="pullback">
       <!-- Interactive 3D Canvas Engine -->
       <canvas id="hero-3d-canvas" aria-label="Interactive 3D Celestial Philippine Sun and Kapwa Sphere"></canvas>
 
@@ -117,7 +118,7 @@
 
         <div class="hero-interaction-hint fade-in-stagger delay-4">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
-          <span>3D INTERACTION: Drag to rotate the Philippine solar sphere · Click for sonic shockwaves</span>
+          <span></span>
         </div>
       </div>
 
@@ -147,7 +148,7 @@
     <!-- ======================================================================
          SECTION 00: Objectives
          ====================================================================== -->
-    <section class="module-section theme-blue" id="sec-objectives">
+    <section class="module-section theme-blue" id="sec-objectives" data-3d-anim="cascade">
       <div class="section-ghost-watermark">OBJECTIVES</div>
       <div class="section-container">
         <div class="section-header">
@@ -208,7 +209,7 @@
          3D deck of cards; click any card to expand it projector-size.
          Aeron's card flips to his second photo when clicked.
          ====================================================================== -->
-    <section class="module-section theme-ochre team-section" id="sec-team">
+    <section class="module-section theme-ochre team-section" id="sec-team" data-3d-anim="fan">
       <div class="section-ghost-watermark">THE TEAM</div>
       <div class="section-container">
         <div class="section-header team-header">
@@ -242,7 +243,7 @@
                 <li><span>Known for</span><strong>Cotti Coffee</strong></li>
               </ul>
               <span class="team-expand-cue" aria-hidden="true">
-                <span>Click to expand</span>
+                <span>Click to reveal the noob</span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>
               </span>
             </div>
@@ -265,7 +266,7 @@
                 <li><span>Known for</span><strong>Valorant 24/7</strong></li>
               </ul>
               <span class="team-expand-cue" aria-hidden="true">
-                <span>Click to expand</span>
+                <span>Click to reveal the valorant player</span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>
               </span>
             </div>
@@ -288,7 +289,7 @@
                 <li><span>Known for</span><strong>Receipts & Illegal</strong></li>
               </ul>
               <span class="team-expand-cue" aria-hidden="true">
-                <span>Click to expand</span>
+                <span>Click to reveal our boss gang</span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>
               </span>
             </div>
@@ -333,7 +334,7 @@
     <!-- ======================================================================
          SECTION 02: The Political Self
          ====================================================================== -->
-    <section class="module-section theme-ochre" id="sec-political-self">
+    <section class="module-section theme-ochre" id="sec-political-self" data-3d-anim="orbit">
       <div class="section-ghost-watermark">POLITICAL SELF</div>
       <div class="section-container">
         <div class="editorial-split">
@@ -381,7 +382,7 @@
     <!-- ======================================================================
          SECTION 03: Who is a Filipino? (The Constitutional Framework)
          ====================================================================== -->
-    <section class="module-section theme-green" id="sec-who-is-filipino">
+    <section class="module-section theme-green" id="sec-who-is-filipino" data-3d-anim="page">
       <div class="section-ghost-watermark">WHO IS A FILIPINO?</div>
       <div class="section-container">
         <div class="section-header">
@@ -481,7 +482,7 @@
     <!-- ======================================================================
          SECTION 04: What is Political?
          ====================================================================== -->
-    <section class="module-section theme-blue" id="sec-what-is-political">
+    <section class="module-section theme-blue" id="sec-what-is-political" data-3d-anim="tunnel">
       <div class="section-ghost-watermark">WHAT IS POLITICAL</div>
       <div class="section-container">
         <div class="section-header">
@@ -537,7 +538,7 @@
     <!-- ======================================================================
          SECTION 05: What is the Political Self?
          ====================================================================== -->
-    <section class="module-section theme-ochre" id="sec-political-self-concept">
+    <section class="module-section theme-ochre" id="sec-political-self-concept" data-3d-anim="layers">
       <div class="section-ghost-watermark">POLITICAL SELF</div>
       <div class="section-container">
         <div class="editorial-split">
@@ -585,7 +586,7 @@
     <!-- ======================================================================
          SECTION 06: Filipino Traits and Values (The Kapwa Core)
          ====================================================================== -->
-    <section class="module-section theme-green" id="sec-filipino-traits">
+    <section class="module-section theme-green" id="sec-filipino-traits" data-3d-anim="ripple">
       <div class="section-ghost-watermark">TRAITS &amp; VALUES</div>
       <div class="section-container">
       <div class="editorial-split traits-split" style="margin-bottom: 2.5rem;">
@@ -645,7 +646,7 @@
          SECTIONS 06 & 07: Accommodative vs. Confrontative Surface Values
          (Interactive 3D Gyroscope Flipper)
          ====================================================================== -->
-    <section class="module-section theme-blue" id="sec-surface-values">
+    <section class="module-section theme-blue" id="sec-surface-values" data-3d-anim="gyro">
       <div class="section-ghost-watermark">SURFACE VALUES</div>
       <div class="section-container">
         <div class="section-header">
@@ -776,7 +777,7 @@
     <!-- ======================================================================
          SECTION 09: The 8 Levels of Kapwa (3D Interactive Ring Visualizer)
          ====================================================================== -->
-    <section class="module-section theme-green" id="sec-kapwa-levels">
+    <section class="module-section theme-green" id="sec-kapwa-levels" data-3d-anim="rings">
       <div class="section-ghost-watermark">IBANG TAO AT HINDI IBANG TAO</div>
       <div class="section-container">
         <div class="section-header">
@@ -876,7 +877,7 @@
     <!-- ======================================================================
          SECTION 10: Filipino Cultural Markers
          ====================================================================== -->
-    <section class="module-section theme-blue" id="sec-markers">
+    <section class="module-section theme-blue" id="sec-markers" data-3d-anim="drop">
       <div class="section-ghost-watermark">FILIPINO MARKERS</div>
       <div class="section-container">
         <div class="section-header">
@@ -960,7 +961,7 @@
 
 
     <!-- New sections from the Group 8 presentation PDF -->
-    <section class="module-section theme-green" id="sec-community">
+    <section class="module-section theme-green" id="sec-community" data-3d-anim="wave">
       <div class="section-ghost-watermark">COMMON GOOD</div>
       <div class="section-container">
         <div class="section-header">
@@ -979,7 +980,7 @@
         <div class="civic-discuss"><strong>CLASS DISCUSSION</strong><p>What does the common good mean in your community?</p></div>
       </div>
     </section>
-    <section class="module-section theme-blue" id="sec-democracy">
+    <section class="module-section theme-blue" id="sec-democracy" data-3d-anim="slide">
       <div class="section-ghost-watermark">DEMOCRACY</div>
       <div class="section-container">
         <div class="section-header">
@@ -997,7 +998,7 @@
         <div class="civic-discuss"><strong>CLASS DISCUSSION</strong><p>How can our class make sure every voice is heard?</p></div>
       </div>
     </section>
-    <section class="module-section theme-green" id="sec-political-skills">
+    <section class="module-section theme-green" id="sec-political-skills" data-3d-anim="stairs">
       <div class="section-ghost-watermark">POLITICAL SKILLS</div>
       <div class="section-container">
         <div class="section-header">
@@ -1020,7 +1021,7 @@
     <!-- ======================================================================
          FINAL SECTION: Closing reflection
          ====================================================================== -->
-    <section class="module-section quiz-section" id="sec-quiz">
+    <section class="module-section quiz-section" id="sec-quiz" data-3d-anim="finale">
       <div class="section-ghost-watermark" style="margin-left: 35%;">QUOTE</div>
       <div class="section-container">
         <div class="section-header" style="text-align:center;">
@@ -1312,6 +1313,7 @@
   <script src="./js/three-d-engine.js"></script>
   <script src="./js/card-focus.js"></script>
   <script src="./js/app.js"></script>
+  <script src="./js/section-3d.js"></script>
   <script src="./js/value-focus.js"></script>
   <script>
     document.querySelectorAll('.mobile-nav-panel a').forEach(function (link) {
