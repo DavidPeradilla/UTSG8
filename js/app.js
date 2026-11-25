@@ -511,6 +511,22 @@
     const dotsContainer = document.getElementById('deck-dots');
     const counterEl = document.getElementById('deck-counter');
 
+    function syncFullscreenNav() {
+      const screenHeight = window.screen ? window.screen.height : 0;
+      const browserFullscreen = screenHeight > 0 && (
+        window.innerHeight >= screenHeight - 2 ||
+        window.outerHeight >= screenHeight - 2
+      );
+      document.body.classList.toggle(
+        'fullscreen-active',
+        Boolean(document.fullscreenElement) || browserFullscreen
+      );
+    }
+
+    document.addEventListener('fullscreenchange', syncFullscreenNav);
+    window.addEventListener('resize', syncFullscreenNav);
+    syncFullscreenNav();
+
     if (!deck) return;
 
     const slides = document.querySelectorAll('.deck-slide');
@@ -561,6 +577,7 @@
 
     function openDeck() {
       deck.classList.add('active');
+      document.body.classList.add('presentation-active');
       document.body.style.overflow = 'hidden';
       updateSlideClasses();
       if (window.AppAudio) window.AppAudio.playChime(500, 'sine');
@@ -568,6 +585,7 @@
 
     function closeDeck() {
       deck.classList.remove('active');
+      document.body.classList.remove('presentation-active');
       document.body.style.overflow = '';
       if (window.AppAudio) window.AppAudio.playClick();
     }
